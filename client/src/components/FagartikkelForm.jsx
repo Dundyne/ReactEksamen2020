@@ -59,6 +59,7 @@ const FagartikkelForm = () => {
     } else {
       setSuccess(true);
       setError(null);
+      console.log(formData);
       setTimeout(() => {
         history.push(`/articles/${data.data.id}`);
       }, 2000);

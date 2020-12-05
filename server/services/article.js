@@ -4,6 +4,9 @@ export const createArticle = async (data) => Article.create(data);
 
 export const getArticleById = async (id) => Article.findById(id);
 
+export const listArticles = async () => Article.find();
+//.populate('admin', 'email')
+
 export const updateArticle = async (id, data) =>
 Article.findByIdAndUpdate(id, data, {
     new: true,

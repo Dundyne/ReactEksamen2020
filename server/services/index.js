@@ -1,5 +1,5 @@
-export * as articleController from './article.js';
-export * as userController from './user.js';
-export * as officeController from './office.js';
-export * as imageController from './image.js';
-export * as employeeController from './employee.js';
+export * as articleService from './article.js';
+export * as userService from './user.js';
+export * as officeService from './office.js';
+export * as imageService from './image.js';
+export * as employeeService from './employee.js';

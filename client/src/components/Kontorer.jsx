@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Styles } from '../StyledComponents/index.js';
 import {Grid, Cell} from 'styled-css-grid';
 import listSort from '../images/list_sort.png';
@@ -82,6 +82,30 @@ function filter(By){
 }
 
 const Kontorer = () => {
+
+    const [ offices, setOffices ] = useState([])
+    const [ useListView, setUseListView ] = useState(false)
+
+    /*
+    useEffect(() => {
+        officeService.list()
+        .then(res => {
+            console.log(res)
+            setOffices(res)
+        })
+        .catch(err => console.err("Error:",err))
+    }, [])
+    */
+
+    const handleOnClickGrid = () => {
+        setUseListView(false)
+    }
+    
+        
+    const handleOnClickList = () => {
+        setUseListView(true)
+    }
+
     return( 
        <>
        
@@ -92,14 +116,19 @@ const Kontorer = () => {
             <Cell width={8}>
                 <FilterBox>
                     <StyledFilterButton>FILTER</StyledFilterButton>
-                    <Logo src={listSort} onClick={filter()} />
-                    <Logo src={gridSort} onClick={filter()} />
+                    <Logo src={listSort} onClick={handleOnClickGrid} />
+                    <Logo src={gridSort} onClick={handleOnClickList} />
                     <DivButton ></DivButton>
                 </FilterBox>
 
             </Cell>
             <Cell width={12}>
-            <Grid columns={12}>
+
+            {
+                useListView 
+                ? <div offices={offices}>LIST VIEW</div>
+                : (
+                    <Grid columns={12}>
                 <Cell width={3}>
                 <CompanyCard>
                     <h1>Rørlegger $nummer</h1>
@@ -158,6 +187,9 @@ const Kontorer = () => {
                 </Cell>
 
             </Grid>
+                )
+            }
+            
             </Cell>
         </Grid>
         </GridContainer>
