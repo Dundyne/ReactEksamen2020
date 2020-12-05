@@ -14,6 +14,10 @@ const OfficeSchema = new Schema(
         email: {
             type: String,
             required: false
+        },
+        city: {
+            type: String,
+            required: false
         }
     }
 )

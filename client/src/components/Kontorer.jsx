@@ -84,6 +84,7 @@ function filter(By){
 const Kontorer = () => {
 
     const [ offices, setOffices ] = useState([])
+    const [ filteredOffices, setFilteredOffices ] = useState([])
     const [ useListView, setUseListView ] = useState(false)
 
     /*
