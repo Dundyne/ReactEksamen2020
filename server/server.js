@@ -14,6 +14,10 @@ import 'dotenv/config.js';
 
 import connectDatabase from './config/db.js';
 
+//Måten alt henger sammen.
+//"Controller" henter data fra "Service" som henter "Schema" fra "Model".
+//"Routes" henter data fra "Controller".
+
 const app = express();
 app.use(helmet());
 app.use(mongoSanitize());

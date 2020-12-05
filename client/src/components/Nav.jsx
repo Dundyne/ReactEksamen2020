@@ -67,12 +67,12 @@ const Nav = () => {
       </NavLink>
     </NavMenuItem>
     <NavMenuItem>
-      <NavLink exact to="/test" activeClassName="active">
+      <NavLink exact to="/kontorer" activeClassName="active">
         Kontorer
       </NavLink>
     </NavMenuItem>
     <NavMenuItem>
-      <NavLink exact to="/test2" activeClassName="active">
+      <NavLink exact to="/artikkel" activeClassName="active">
         Fagartikler
       </NavLink>
     </NavMenuItem>

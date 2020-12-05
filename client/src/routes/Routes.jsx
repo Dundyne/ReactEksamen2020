@@ -1,6 +1,8 @@
 import React, { lazy, Suspense } from 'react';
 import MainLayout from '../layouts/MainLayout';
-import TestPage from '../pages/TestPage';
+import Hjem from '../pages/HjemPage';
+import Kontorer from '../pages/KontorerPage';
+import FagartikkelForm from '../pages/FagartikkelPage';
 import {
   BrowserRouter as Router,
   Switch,
@@ -14,7 +16,13 @@ const Routes = () => (
       <Suspense fallback={<div>Loading ...</div>}>
         <Switch>
           <Route exact path="/">
-            <TestPage />
+            <Hjem />
+          </Route>
+          <Route exact path="/kontorer">
+            <Kontorer />
+          </Route>
+          <Route exact path="/artikkel">
+            <FagartikkelForm />
           </Route>
         </Switch>
       </Suspense>
