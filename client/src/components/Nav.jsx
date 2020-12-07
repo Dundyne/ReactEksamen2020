@@ -9,6 +9,13 @@ width: 120px;
 height: 100% ; 
 background-color: #4198e5; 
 color: white;
+family-weight: bold;
+
+
+&:hover {
+  background-color: #1fe7ed;
+}
+
 
 `;
 
@@ -59,6 +66,11 @@ const NavMenuItem = styled.li`
       color: #4198e5;
      
     }
+
+    &:hover {
+      color: #adadad;
+    }
+
 
   }
 `;
