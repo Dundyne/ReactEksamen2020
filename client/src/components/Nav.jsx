@@ -100,7 +100,7 @@ const Nav = () => {
       </NavLink>
     </NavMenuItem>
       <NavMenuItem>
-      <NavLink exact to="/test4" activeClassName="active">
+      <NavLink exact to="/loginForm" activeClassName="active">
 
         <StyledButton>LOGG INN</StyledButton>
 

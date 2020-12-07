@@ -6,7 +6,7 @@ import { sendMail } from '../utils/sendEmail.js';
 
 export const register = catchAsyncErrors(async (req, res, next) => {
   const user = await userService.createUser(req.body);
-  try {
+  /*try {
     await sendMail({
       email: user.email,
       subject: 'Velkommen som bruker',
@@ -15,8 +15,12 @@ export const register = catchAsyncErrors(async (req, res, next) => {
   } catch (error) {
     console.log(error);
   }
-  sendToken(user, res);
+  */
+  //sendToken(user, res);
 });
+
+
+
 
 export const login = catchAsyncErrors(async (req, res, next) => {
   const { email, password } = req.body;
@@ -36,7 +40,8 @@ export const login = catchAsyncErrors(async (req, res, next) => {
     return next(new ErrorHandler('Fyll ut epost og passord', 400));
   }
 
-  sendToken(user, res);
+  
+  // sendToken(user, res);
 });
 
 export const logout = catchAsyncErrors(async (req, res, next) => {

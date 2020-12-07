@@ -8,6 +8,8 @@ import xssClean from 'xss-clean';
 
 import article from './routes/article.js';
 import office from './routes/office.js';
+import user from './routes/user.js';
+import auth from './routes/auth.js';
 
 import mongoSanitize from 'express-mongo-sanitize';
 import rateLimit from 'express-rate-limit';
@@ -61,6 +63,8 @@ app.use(cookieParser());
 // app.use(csrf({ cookie: true }));
 app.use(`${process.env.BASEURL}/articles`, article);
 app.use(`${process.env.BASEURL}/offices`, office);
+app.use(`${process.env.BASEURL}/users`, user);
+app.use(`${process.env.BASEURL}/`, auth);
 //app.use(errorMiddleware);
 connectDatabase();
 
