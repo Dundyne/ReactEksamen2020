@@ -215,6 +215,53 @@ const Kontorer = () => {
               <Logo src={gridSort} onClick={handleOnClickList} />
             </FilterBox>
           </Cell>
+              <Grid columns={12}>
+          {useListView
+          ? filteredCities.map(
+            (city, index) =>
+                offices &&
+                offices
+                  .filter((office) => office.city == city)
+                  .map((office) => (
+                    <Grid columns={12}>
+                      <Cell width={12}>
+                        <Styles.Title>{city}</Styles.Title>
+                      </Cell>
+                    </Grid>
+                  ))
+                  )
+
+          : filteredCities.map(
+              (city) =>
+                offices &&
+                offices
+                  .filter((office) => office.city == city)
+                  .map((office, index) => 
+
+                    <Grid columns={12}>
+
+                        {index==0 ? 
+                            <Grid columns={12}>
+                            <Cell width={12}>
+                        <Styles.Title>{city}</Styles.Title>
+                      </Cell>
+                      </Grid> : null }
+                      
+                      
+                      <Grid colums={12}>
+                        <Cell width={3}>
+                          <CompanyCard>
+                            <h1>Text:{office.name}</h1>
+                            <p key={index}>Nummer:{index}</p>
+                            <p>Text{office.email}</p>
+                            <p>Text{office.city}</p>
+                          </CompanyCard>
+                        </Cell>
+                        </Grid>
+                        </Grid>
+                  ))
+            }
+            </Grid>
         </Grid>
       </GridContainer>
     </>
