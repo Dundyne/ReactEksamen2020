@@ -5,7 +5,7 @@ import cookieParser from 'cookie-parser';
 import helmet from 'helmet';
 import hpp from 'hpp';
 import xssClean from 'xss-clean';
-
+import errorMiddleware from './middleware/errors.js';
 import article from './routes/article.js';
 import office from './routes/office.js';
 import user from './routes/user.js';
@@ -42,7 +42,7 @@ if (process.env.NODE_ENV === 'development') {
 
 app.use(express.json());
 app.use(express.static(`${__dirname}/public`));
-/*
+
 app.use(
   cors({
     origin: 'http://localhost:3000',
@@ -51,21 +51,33 @@ app.use(
   })
 );
 
-*/
+
 // app.use(csrf({ cookie: true }));
 
-/*app.get(`${process.env.BASEURL}/csrf-token`, (req, res) => {
+app.get(`${process.env.BASEURL}/csrf-token`, (req, res) => {
   res.status(200).json({ data: req.csrfToken() });
-});*/
+});
 
-app.use(cors({ origin: 'http://localhost:3000' }));
+app.use(
+  cors({
+    origin: 'http://localhost:3000',
+    allowedHeaders: ['Content-Type', 'Authorization', 'x-csrf-token'],
+    credentials: true,
+  })
+);
+
 app.use(cookieParser());
-// app.use(csrf({ cookie: true }));
+
+
+app.get(`${process.env.BASEURL}/csrf-token`, (req, res) => {
+  res.status(200).json({ data: req.csrfToken() });
+});
+
 app.use(`${process.env.BASEURL}/articles`, article);
 app.use(`${process.env.BASEURL}/offices`, office);
 app.use(`${process.env.BASEURL}/users`, user);
 app.use(`${process.env.BASEURL}/`, auth);
-//app.use(errorMiddleware);
+app.use(errorMiddleware);
 connectDatabase();
 
 const server = app.listen(

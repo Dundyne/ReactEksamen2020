@@ -1,10 +1,10 @@
 import styled from "styled-components";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Styles } from "../StyledComponents/index.js";
 import { useForm } from "react-hook-form";
-import { useHistory } from "react-router-dom";
-import { createUser } from "../utils/userService";
-
+import { useHistory, useLocation } from "react-router-dom";
+import { login } from "../utils/authService";
+import { useAuthContext } from "../context/AuthProvider";
 //lånt en del css fra https://www.w3schools.com/css/css_form.asp
 //syns det var vrient å style forms
 
@@ -55,31 +55,35 @@ const Button = styled.button`
 
 const CloseButton = styled.button``;
 
-const UserForm = () => {
+const LoginForm = () => {
   const [closeBtnState, setCloseBtnState] = useState(false);
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState(false);
-
-  //Skjønner ikke history
+  const { setUser, isLoggedIn } = useAuthContext();
   const history = useHistory();
+  const { state } = useLocation();
 
   const { register, errors, handleSubmit, formState } = useForm({
     mode: "onBlur",
   });
 
-  const onSubmit = async (formData) => {
-    const { data } = await createUser(formData);
+  useEffect( () => {
+    if (isLoggedIn && state) {
+      history.push(state?.from.pathname);
+    }
+  }, [isLoggedIn, state]);
+
+  const onSubmit = async (credentials) => {
+    const { data } = await login(credentials);
     if (!data.success) {
       setCloseBtnState(true);
       setError(data.message);
     } else {
+      const user = data?.user;
+      const expire = JSON.parse(window.atob(data.token.split(".")[1])).exp;
+      setUser({ ...user, expire });
       setSuccess(true);
-      setError(null);
-
-      console.log(formData);
-      setTimeout(() => {
-        history.push(`/`);
-      }, 3000);
+      history.push("/");
     }
   };
 
@@ -112,7 +116,7 @@ const UserForm = () => {
             required: true,
           })}
         />
-        <FormLabel>Click for admin</FormLabel>
+
         <Input
           type="checkbox"
           name="role"
@@ -130,4 +134,4 @@ const UserForm = () => {
   );
 };
 
-export default UserForm;
+export default LoginForm;

@@ -2,7 +2,7 @@ import { Button } from '@chakra-ui/core';
 import React from 'react';
 import { NavLink } from 'react-router-dom';
 import styled from 'styled-components';
-
+import { useAuthContext } from "../context/AuthProvider";
 const StyledButton = styled.button`
 display: block; 
 width: 120px;
@@ -76,6 +76,7 @@ const NavMenuItem = styled.li`
 `;
 
 const Nav = () => {
+
   return(
   <StyledNav>
   <NavMenu>
@@ -99,14 +100,16 @@ const Nav = () => {
         Kontakt
       </NavLink>
     </NavMenuItem>
+
       <NavMenuItem>
+        
       <NavLink exact to="/loginForm" activeClassName="active">
 
         <StyledButton>LOGG INN</StyledButton>
 
         </NavLink>
         </NavMenuItem>
-      
+        
   </NavMenu>
 </StyledNav>
 );}

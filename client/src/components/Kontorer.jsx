@@ -19,6 +19,7 @@ export const TitleBox = styled.header`
     0.3em 0.3em 1em rgba(0, 0, 0, 0.3);
   margin-bottom: 20px;
 `;
+
 const DivButton = styled.div`
   background-image: url(${listSort});
 `;
@@ -92,7 +93,18 @@ const Kontorer = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [selectedOption, setSelectedOption] = useState(null);
   const [hidden, setHidden] = useState(true);
-/*
+
+
+  const [ searchString, setSearchString ] = useState("")
+
+
+  const searchFilteredOffices = offices.filter(office.value.includes(searchString))
+
+
+  const mappedOffices = groupBy(searchFilteredOffices, office => office.city)
+
+  //const grouped = groupBy(pets, pet => pet.type);
+  
   function groupBy(list, keyGetter) {
     const map = new Map();
     list.forEach((item) => {
@@ -105,15 +117,16 @@ const Kontorer = () => {
       }
     });
     return map;
-  }*/
+  }
 
+  /*
   function groupBy(xs, key) {
-    return xs.reduce(function(rv, x) {
+    return xs.reduce(function (rv, x) {
       (rv[x[key]] = rv[x[key]] || []).push(x);
       return rv;
     }, {});
-  };
-
+  }
+  */
 
   useEffect(() => {
     const fetchData = async () => {
@@ -123,12 +136,13 @@ const Kontorer = () => {
         setError(error);
       } else {
         setOffices(data.data);
+        
         setError(null);
       }
       setLoading(false);
     };
     fetchData();
-
+    
     setFilteredCities(dropDownCities);
   }, []);
 
@@ -159,6 +173,95 @@ const Kontorer = () => {
     filteredCities = [city];
   };
 
+  const Header = () => (
+    <>
+    <Cell width={4}>
+      <NavLink exact to="/kontorerForm" activeClassName="active">
+        <StyledFilterButton>Lag et kontor</StyledFilterButton>
+      </NavLink>
+    </Cell>
+    <Cell width={8}>
+      <FilterBox>
+        <Dropdown>
+          <StyledFilterButton
+            dropdownToggle
+            onClick={() => setHidden(!hidden)}
+            //https://medium.com/the-andela-way/custom-select-dropdown-in-react-1758c1f6f537 tatt logikk her fra
+          >
+            {selectedOption || "Alle"}
+          </StyledFilterButton>
+          {!hidden && (
+            <DropdownMenu
+              hidden={hidden}
+              toggle={() => setHidden(!hidden)}
+            >
+              {dropDownCities.map((option) => (
+                <DropdownItem
+                  onClick={onOptionClicked(option)}
+                  activeClassName="active"
+                  key={Math.random()}
+                >
+                  {option}
+                </DropdownItem>
+              ))}
+              <DropdownItem
+                onClick={onOptionClicked("Alle")}
+                activeClassName="active"
+              >
+                Alle
+              </DropdownItem>
+            </DropdownMenu>
+          )}
+        </Dropdown>
+
+        <Logo src={listSort} onClick={handleOnClickList} />
+        <Logo src={gridSort} onClick={handleOnClickGrid} />
+      </FilterBox>
+    </Cell>
+    </>
+  )
+
+  const ListView = () => (
+    filteredCities.map(
+      (city, index) =>
+        offices &&
+        offices
+          .filter((office) => office.city == city)
+          .map((office) => (
+            <Grid columns={12}>
+              <Cell width={12}>
+                <Styles.Title>{city}</Styles.Title>
+              </Cell>
+            </Grid>
+          ))
+    )
+  )
+
+
+  const GridView = () => (
+    filteredCities.map(city => {
+      const offices = mappedOffices.get(city)
+      return offices ? (
+        <>
+          <Cell width={12}>
+            <Styles.Title>{city}</Styles.Title>
+          </Cell>
+          {
+          offices.map((office, index) => (
+            <Cell width={3}>
+              <CompanyCard>
+                <h1>Text:{office.name}</h1>
+                <p key={index}>Nummer:{index}</p>
+                <p>Text{office.email}</p>
+                <p>Text{office.city}</p>
+              </CompanyCard>
+          </Cell>
+          ))}
+          </>
+    ) : null
+  })
+  )
+
   //                                {idex==0 ? <div><Logo src={listSort} onClick={handleOnClickGrid} />
   // <Logo src={gridSort} onClick={handleOnClickList} /> </div>: null}
 
@@ -172,96 +275,12 @@ const Kontorer = () => {
 
       <GridContainer>
         <Grid columns={12}>
-          <Cell width={4}>
-            <NavLink exact to="/kontorerForm" activeClassName="active">
-              <StyledFilterButton>Lag et kontor</StyledFilterButton>
-            </NavLink>
-          </Cell>
-          <Cell width={8}>
-            <FilterBox>
-              <Dropdown>
-                <StyledFilterButton
-                  dropdownToggle
-                  onClick={() => setHidden(!hidden)}
-                  //https://medium.com/the-andela-way/custom-select-dropdown-in-react-1758c1f6f537 tatt logikk her fra
-                >
-                  {selectedOption || "Alle"}
-                </StyledFilterButton>
-                {!hidden && (
-                  <DropdownMenu
-                    hidden={hidden}
-                    toggle={() => setHidden(!hidden)}
-                  >
-                    {dropDownCities.map((option) => (
-                      <DropdownItem
-                        onClick={onOptionClicked(option)}
-                        activeClassName="active"
-                        key={Math.random()}
-                      >
-                        {option}
-                      </DropdownItem>
-                    ))}
-                    <DropdownItem
-                      onClick={onOptionClicked("Alle")}
-                      activeClassName="active"
-                    >
-                      Alle
-                    </DropdownItem>
-                  </DropdownMenu>
-                )}
-              </Dropdown>
-
-              <Logo src={listSort} onClick={handleOnClickGrid} />
-              <Logo src={gridSort} onClick={handleOnClickList} />
-            </FilterBox>
-          </Cell>
-              <Grid columns={12}>
-          {useListView
-          ? filteredCities.map(
-            (city, index) =>
-                offices &&
-                offices
-                  .filter((office) => office.city == city)
-                  .map((office) => (
-                    <Grid columns={12}>
-                      <Cell width={12}>
-                        <Styles.Title>{city}</Styles.Title>
-                      </Cell>
-                    </Grid>
-                  ))
-                  )
-
-          : filteredCities.map(
-              (city) =>
-                offices &&
-                offices
-                  .filter((office) => office.city == city)
-                  .map((office, index) => 
-
-                    <Grid columns={12}>
-
-                        {index==0 ? 
-                            <Grid columns={12}>
-                            <Cell width={12}>
-                        <Styles.Title>{city}</Styles.Title>
-                      </Cell>
-                      </Grid> : null }
-                      
-                      
-                      <Grid colums={12}>
-                        <Cell width={3}>
-                          <CompanyCard>
-                            <h1>Text:{office.name}</h1>
-                            <p key={index}>Nummer:{index}</p>
-                            <p>Text{office.email}</p>
-                            <p>Text{office.city}</p>
-                          </CompanyCard>
-                        </Cell>
-                        </Grid>
-                        </Grid>
-                  ))
+          <Header />
+            {
+              useListView
+              ? <ListView />
+              : <GridView />
             }
-            </Grid>
         </Grid>
       </GridContainer>
     </>

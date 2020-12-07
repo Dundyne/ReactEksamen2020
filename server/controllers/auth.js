@@ -16,11 +16,8 @@ export const register = catchAsyncErrors(async (req, res, next) => {
     console.log(error);
   }
   */
-  //sendToken(user, res);
+  sendToken(user, res);
 });
-
-
-
 
 export const login = catchAsyncErrors(async (req, res, next) => {
   const { email, password } = req.body;
@@ -41,7 +38,7 @@ export const login = catchAsyncErrors(async (req, res, next) => {
   }
 
   
-  // sendToken(user, res);
+  sendToken(user, res);
 });
 
 export const logout = catchAsyncErrors(async (req, res, next) => {

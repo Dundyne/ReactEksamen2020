@@ -32,9 +32,9 @@ const FormLabel = styled.label`
     
 `
 const Button = styled.button`
-margin-top: 10px;
-width: 120px;
-height: 100% ; 
+    margin-top: 10px;
+    width: 120px;
+    height: 100% ; 
 
 `
 

@@ -5,7 +5,9 @@ import Kontorer from '../pages/KontorerPage';
 import KontorerForm from '../pages/KontorerFormPage';
 import FagartikkelForm from '../pages/FagartikkelFormPage';
 import Fagartikler from '../pages/FagartiklerPage';
-import UserForm from '../pages/UserFormPage'
+import UserForm from '../pages/UserFormPage';
+import LoginForm from '../pages/LoginFormPage';
+import { useAuthContext } from "../context/AuthProvider";
 import {
   BrowserRouter as Router,
   Switch,
@@ -30,8 +32,11 @@ const Routes = () => (
           <Route exact path="/kontorerForm">
             <KontorerForm />
           </Route>
-        <Route exact path = "/loginForm">
+        <Route exact path = "/registrationForm">
           <UserForm/>
+        </Route>
+        <Route exact path = '/loginForm'>
+          <LoginForm/>
         </Route>
         
         
