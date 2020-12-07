@@ -4,6 +4,8 @@ export const createOffice = async (data) => Office.create(data);
 
 export const getOfficeById = async (id) => Office.findById(id);
 
+export const listOffices = async () => Office.find();
+
 export const updateOffice = async (id, data) =>
 Office.findByIdAndUpdate(id, data, {
     new: true,

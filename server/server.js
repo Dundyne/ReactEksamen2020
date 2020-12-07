@@ -5,7 +5,10 @@ import cookieParser from 'cookie-parser';
 import helmet from 'helmet';
 import hpp from 'hpp';
 import xssClean from 'xss-clean';
+
 import article from './routes/article.js';
+import office from './routes/office.js';
+
 import mongoSanitize from 'express-mongo-sanitize';
 import rateLimit from 'express-rate-limit';
 
@@ -49,14 +52,15 @@ app.use(
 */
 // app.use(csrf({ cookie: true }));
 
-app.get(`${process.env.BASEURL}/csrf-token`, (req, res) => {
+/*app.get(`${process.env.BASEURL}/csrf-token`, (req, res) => {
   res.status(200).json({ data: req.csrfToken() });
-});
+});*/
 
 app.use(cors({ origin: 'http://localhost:3000' }));
 app.use(cookieParser());
 // app.use(csrf({ cookie: true }));
 app.use(`${process.env.BASEURL}/articles`, article);
+app.use(`${process.env.BASEURL}/offices`, office);
 //app.use(errorMiddleware);
 connectDatabase();
 

@@ -9,6 +9,7 @@ width: 120px;
 height: 100% ; 
 background-color: #4198e5; 
 color: white;
+
 `;
 
 const StyledNav = styled.nav`
@@ -25,6 +26,13 @@ const NavMenu = styled.ul`
   padding: 0 20px;
   align-items: center;
   justify-content: flex-end;
+
+  @media only screen and (max-width: 500px) {
+    display: flex;
+    flex-direction: column;
+    justify-contet: flex-end;
+ } 
+
 `;
 
 const NavMenuItem = styled.li`
@@ -51,9 +59,7 @@ const NavMenuItem = styled.li`
       color: #4198e5;
      
     }
-    &.button.active {
-      color: black;
-    }
+
   }
 `;
 
@@ -72,7 +78,7 @@ const Nav = () => {
       </NavLink>
     </NavMenuItem>
     <NavMenuItem>
-      <NavLink exact to="/artikkel" activeClassName="active">
+      <NavLink exact to="/fagartikler" activeClassName="active">
         Fagartikler
       </NavLink>
     </NavMenuItem>

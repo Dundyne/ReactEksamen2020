@@ -2,7 +2,7 @@ import catchAsyncErrors from '../middleware/catchAsync.js';
 import ErrorHandler from '../utils/errorHandler.js';
 import { articleService } from '../services/index.js';
 export const get = catchAsyncErrors(async (req, res, next) => {
-  const article = await articleService.getEventById(req.params.id);
+  const article = await articleService.getArticleById(req.params.id);
   if (!article) {
     return next(
       new ErrorHandler(`Finner ikke article med ${req.params.id}`, 404)
@@ -13,7 +13,7 @@ export const get = catchAsyncErrors(async (req, res, next) => {
 
 export const list = catchAsyncErrors(async (req, res, next) => {
     const articles = await articleService.listArticles();
-    res.status(200).json({ success: true, data: events });
+    res.status(200).json({ success: true, data: articles });
   });
 
 export const create = catchAsyncErrors(async (req, res, next) => {

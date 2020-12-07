@@ -2,7 +2,9 @@ import React, { lazy, Suspense } from 'react';
 import MainLayout from '../layouts/MainLayout';
 import Hjem from '../pages/HjemPage';
 import Kontorer from '../pages/KontorerPage';
-import FagartikkelForm from '../pages/FagartikkelPage';
+import KontorerForm from '../pages/KontorerFormPage';
+import FagartikkelForm from '../pages/FagartikkelFormPage';
+import Fagartikler from '../pages/FagartiklerPage';
 import {
   BrowserRouter as Router,
   Switch,
@@ -21,8 +23,11 @@ const Routes = () => (
           <Route exact path="/kontorer">
             <Kontorer />
           </Route>
-          <Route exact path="/artikkel">
-            <FagartikkelForm />
+          <Route exact path="/fagartikler">
+            <Fagartikler />
+          </Route>
+          <Route exact path="/kontorerForm">
+            <KontorerForm />
           </Route>
         </Switch>
       </Suspense>

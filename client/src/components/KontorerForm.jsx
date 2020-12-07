@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import { Styles } from '../StyledComponents/index.js';
 import { useForm } from 'react-hook-form';
 import { useHistory } from 'react-router-dom';
-import { create } from '../utils/articleService';
+import { create } from '../utils/officeService';
 
 const FormContainer = styled.form`
     width: 500px;
@@ -23,7 +23,9 @@ const Title = styled.h1`
 `
 const Input = styled.input`
     width: 100%
-
+    box-sizing: border-box;
+    background-color: blue;
+    
 `
 
 const FormLabel = styled.label`
@@ -35,13 +37,18 @@ const Button = styled.button`
 margin-top: 10px;
 width: 120px;
 height: 100% ; 
+background-color: #4198e5; 
+color: white;
+`
+const CloseButton = styled.button`
 
 `
 
-const FagartikkelForm = () => {
+const KontorerForm = () => {
   const [closeBtnState, setCloseBtnState] = useState(false);
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState(false);
+  const dropDownCities = ["Sarpsborg", "Fredrikstad", "Bergen", "Moss"];
 
   //Skjønner ikke history
   const history = useHistory();
@@ -60,7 +67,8 @@ const FagartikkelForm = () => {
       setError(null);
       console.log(formData);
       setTimeout(() => {
-        history.push(`/articles/${data.data.id}`);
+          
+        history.push(`/kontorer`);
       }, 2000);
     }
   };
@@ -69,62 +77,42 @@ const FagartikkelForm = () => {
         <>
         <Styles.TitleBox><h1><Title>Velkommen til FG Rørleggerservice AS</Title></h1></Styles.TitleBox>
             <FormContainer onSubmit={handleSubmit(onSubmit)}>
-                <FormLabel htmlFor="title">Tittel</FormLabel>
+                <FormLabel htmlFor="name">Navn</FormLabel>
                 <Input
-                    type="title"
-                    name="title"
-                    id="title"
-                    placeholder="title"
+                    type="text"
+                    name="name"
+                    id="name"
+                    placeholder="name"
                     ref={register({
                         required: true,
                     })}/>
 
-                <FormLabel htmlFor="ingress">Ingress</FormLabel>
+                <FormLabel htmlFor="number">Nummer</FormLabel>
                 <Input
-                    type="ingress"
-                    name="ingress"
-                    id="ingress"
-                    placeholder="ingress"
+                    type="number"
+                    name="number"
+                    id="number"
+                    placeholder="number"
                     ref={register({
                         required: true,
                     })}/>
                 
-                <FormLabel htmlFor="content">Innhold</FormLabel>
+                <FormLabel htmlFor="email">Email</FormLabel>
                 <Input
-                    type="content"
-                    name="content"
-                    id="content"
-                    placeholder="content"
+                    type="email"
+                    name="email"
+                    id="email"
+                    placeholder="email"
                     ref={register({
                         required: true,
                     })}/>
 
-                <FormLabel htmlFor="date">Dato</FormLabel>
+                <FormLabel htmlFor="city">City</FormLabel>
                 <Input
-                    type="date"
-                    name="date"
-                    id="date"
-                    placeholder="date"
-                    ref={register({
-                        required: true,
-                    })}/>
-
-                <FormLabel htmlFor="author">Forfatter</FormLabel>
-                <Input
-                    type="author"
-                    name="author"
-                    id="author"
-                    placeholder="author"
-                    ref={register({
-                        required: true,
-                    })}/>
-
-                <FormLabel htmlFor="category">Kategori</FormLabel>
-                <Input
-                    type="category"
-                    name="category"
-                    id="category"
-                    placeholder="category"
+                    type="text"
+                    name="city"
+                    id="city"
+                    placeholder="city"
                     ref={register({
                         required: true,
                     })}/>
@@ -132,7 +120,7 @@ const FagartikkelForm = () => {
                     <Button
                         isLoading={formState.isSubmitting}
                         type="submit">
-                            Lag ny artikkel
+                            Lag nytt kontor
                         </Button>
                 
             </FormContainer>
@@ -140,4 +128,4 @@ const FagartikkelForm = () => {
     );
 }
 
-export default FagartikkelForm; 
+export default KontorerForm; 

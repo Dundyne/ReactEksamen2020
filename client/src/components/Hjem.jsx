@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import React from 'react';
-import { Styles } from '../StyledComponents/index.js';
+import { Styles } from '../StyledComponents/index.js'; 
 import {Grid, Cell} from 'styled-css-grid';
 
 const GridContainerMainPage = styled.main`
@@ -36,7 +36,6 @@ const Hjem = () => {
     return(
         <>
         <Styles.TitleBox><h1><Title>Velkommen til FG Rørleggerservice AS</Title></h1></Styles.TitleBox>
-        
         <GridContainer>
         <Grid columns={12}>
             <Cell width={3}><MainBox><Title>Kontorer</Title></MainBox></Cell>

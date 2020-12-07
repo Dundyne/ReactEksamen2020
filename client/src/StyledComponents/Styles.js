@@ -22,8 +22,7 @@ export const TitleBox = styled.header`
 `
 
 export const Title = styled.h1`
-    text-align:center;
-
+display: flex;
     font-size:50px;
     font-weight: bold;
 
