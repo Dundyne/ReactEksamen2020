@@ -102,7 +102,7 @@ const UserForm = () => {
           })}
         />
 
-        <FormLabel htmlFor="password">Number</FormLabel>
+        <FormLabel htmlFor="password">Password</FormLabel>
         <Input
           type="password"
           name="password"
@@ -112,15 +112,7 @@ const UserForm = () => {
             required: true,
           })}
         />
-        <FormLabel>Click for admin</FormLabel>
-        <Input
-          type="checkbox"
-          name="role"
-          id="role"
-          ref={register({
-            required: false,
-          })}
-        />
+
 
         <Button isLoading={formState.isSubmitting} type="submit">
           Opprett en bruker
@@ -131,3 +123,12 @@ const UserForm = () => {
 };
 
 export default UserForm;
+/**        <FormLabel>Click for admin</FormLabel>
+        <Input
+          type="checkbox"
+          name="role"
+          id="role"
+          ref={register({
+            required: false,
+          })}
+        /> */

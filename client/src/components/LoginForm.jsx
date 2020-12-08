@@ -94,7 +94,17 @@ const LoginForm = () => {
           <Title>Velkommen til FG Rørleggerservice AS</Title>
         </h1>
       </Styles.TitleBox>
+     
+     
+     
+     
       <FormContainer onSubmit={handleSubmit(onSubmit)}>
+
+      {success && (
+          
+            <div>Du er logget inn. Omdirigerer til forsiden ...</div>
+          
+        )}
         <FormLabel htmlFor="text">Email</FormLabel>
         <Input
           type="text"
@@ -116,18 +126,11 @@ const LoginForm = () => {
             required: true,
           })}
         />
-
-        <Input
-          type="checkbox"
-          name="role"
-          id="role"
-          ref={register({
-            required: false,
-          })}
-        />
+        
+        
 
         <Button isLoading={formState.isSubmitting} type="submit">
-          Opprett en bruker
+          Log In With User
         </Button>
       </FormContainer>
     </>
@@ -135,3 +138,14 @@ const LoginForm = () => {
 };
 
 export default LoginForm;
+
+/*
+<Input
+          type="checkbox"
+          name="role"
+          id="role"
+          ref={register({
+            required: false,
+          })}
+        />
+        */

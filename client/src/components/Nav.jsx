@@ -96,7 +96,7 @@ const Nav = () => {
       </NavLink>
     </NavMenuItem>
     <NavMenuItem>
-      <NavLink exact to="/test3" activeClassName="active">
+      <NavLink exact to="/registrationForm" activeClassName="active">
         Kontakt
       </NavLink>
     </NavMenuItem>

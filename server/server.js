@@ -2,6 +2,7 @@ import express from 'express';
 import morgan from 'morgan';
 import cors from 'cors';
 import cookieParser from 'cookie-parser';
+import csrf from 'csurf';
 import helmet from 'helmet';
 import hpp from 'hpp';
 import xssClean from 'xss-clean';
@@ -19,6 +20,7 @@ import 'dotenv/config.js';
 
 import connectDatabase from './config/db.js';
 
+
 //Måten alt henger sammen.
 //"Controller" henter data fra "Service" som henter "Schema" fra "Model".
 //"Routes" henter data fra "Controller".
@@ -28,6 +30,7 @@ app.use(helmet());
 app.use(mongoSanitize());
 app.use(xssClean());
 app.use(hpp());
+//app.use(csrf());
 
 const limiter = rateLimit({
   windowMs: 10 * 60 * 1000,
@@ -43,20 +46,10 @@ if (process.env.NODE_ENV === 'development') {
 app.use(express.json());
 app.use(express.static(`${__dirname}/public`));
 
-app.use(
-  cors({
-    origin: 'http://localhost:3000',
-    allowedHeaders: ['Content-Type', 'Authorization', 'x-csrf-token'],
-    credentials: true,
-  })
-);
+
+//app.use(csrf({ cookie: true }));
 
 
-// app.use(csrf({ cookie: true }));
-
-app.get(`${process.env.BASEURL}/csrf-token`, (req, res) => {
-  res.status(200).json({ data: req.csrfToken() });
-});
 
 app.use(
   cors({
@@ -77,7 +70,11 @@ app.use(`${process.env.BASEURL}/articles`, article);
 app.use(`${process.env.BASEURL}/offices`, office);
 app.use(`${process.env.BASEURL}/users`, user);
 app.use(`${process.env.BASEURL}/`, auth);
+
+
 app.use(errorMiddleware);
+
+
 connectDatabase();
 
 const server = app.listen(

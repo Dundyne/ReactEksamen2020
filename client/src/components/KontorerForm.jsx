@@ -91,7 +91,7 @@ const KontorerForm = () => {
       setTimeout(() => {
           
         history.push(`/kontorer`);
-      }, 3000);
+      }, 2000);
     }
   };
 

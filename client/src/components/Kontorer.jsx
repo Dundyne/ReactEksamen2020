@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import { Styles } from "../StyledComponents/index.js";
 import { Grid, Cell } from "styled-css-grid";
 import listSort from "../images/list_sort.png";
@@ -44,7 +44,7 @@ const Title = styled.h1`
 const CompanyCard = styled.section`
     display: flex;
     flex-wrap: wrap;
-    min-width: 200px;
+    max-width: 300px;
     height: 150px;
     padding: 20px;
     margin: 0, 20px;
@@ -83,28 +83,28 @@ const OfficeButtonContainer = styled.button`
 
 const Kontorer = () => {
   const [offices, setOffices] = useState([]);
-  const [filteredOffices, setFilteredOffices] = useState([]);
+
   const [useListView, setUseListView] = useState(false);
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
-  const [filteredCities, setFilteredCities] = useState([""]);
-  const dropDownCities = ["Sarpsborg", "Fredrikstad", "Bergen", "Moss"];
+  const [filteredCities, setFilteredCities] = useState([]);
+
+  const dropDownCities = [...new Set(offices.map((item) => item.city))];
 
   const [isOpen, setIsOpen] = useState(false);
   const [selectedOption, setSelectedOption] = useState(null);
   const [hidden, setHidden] = useState(true);
 
+  const mappedOffices = groupBy(offices, (office) => office.city);
 
-  const [ searchString, setSearchString ] = useState("")
+  // const [ searchString, setSearchString ] = useState("")
 
+  const unique = [...new Set(offices.map((item) => item.city))];
 
-  const searchFilteredOffices = offices.filter(office.value.includes(searchString))
-
-
-  const mappedOffices = groupBy(searchFilteredOffices, office => office.city)
+  //const searchFilteredOffices = offices.filter(office.value.includes(searchString))
 
   //const grouped = groupBy(pets, pet => pet.type);
-  
+
   function groupBy(list, keyGetter) {
     const map = new Map();
     list.forEach((item) => {
@@ -119,15 +119,6 @@ const Kontorer = () => {
     return map;
   }
 
-  /*
-  function groupBy(xs, key) {
-    return xs.reduce(function (rv, x) {
-      (rv[x[key]] = rv[x[key]] || []).push(x);
-      return rv;
-    }, {});
-  }
-  */
-
   useEffect(() => {
     const fetchData = async () => {
       setLoading(true);
@@ -136,20 +127,17 @@ const Kontorer = () => {
         setError(error);
       } else {
         setOffices(data.data);
-        
+        setFilteredCities([...new Set(data.data.map((item) => item.city))]);
         setError(null);
       }
       setLoading(false);
     };
     fetchData();
-    
-    setFilteredCities(dropDownCities);
   }, []);
 
   const toggling = () => setIsOpen(!isOpen);
 
   const onOptionClicked = (value) => () => {
-    console.log(filteredOffices);
     setSelectedOption(value);
     if (value == "Alle") {
       setFilteredCities(dropDownCities);
@@ -175,92 +163,91 @@ const Kontorer = () => {
 
   const Header = () => (
     <>
-    <Cell width={4}>
-      <NavLink exact to="/kontorerForm" activeClassName="active">
-        <StyledFilterButton>Lag et kontor</StyledFilterButton>
-      </NavLink>
-    </Cell>
-    <Cell width={8}>
-      <FilterBox>
-        <Dropdown>
-          <StyledFilterButton
-            dropdownToggle
-            onClick={() => setHidden(!hidden)}
-            //https://medium.com/the-andela-way/custom-select-dropdown-in-react-1758c1f6f537 tatt logikk her fra
-          >
-            {selectedOption || "Alle"}
-          </StyledFilterButton>
-          {!hidden && (
-            <DropdownMenu
-              hidden={hidden}
-              toggle={() => setHidden(!hidden)}
+      <Cell width={4}>
+        <NavLink exact to="/kontorerForm" activeClassName="active">
+          <StyledFilterButton>Lag et kontor</StyledFilterButton>
+        </NavLink>
+      </Cell>
+      <Cell width={8}>
+        <FilterBox>
+          <Dropdown>
+            <StyledFilterButton
+              dropdownToggle
+              onClick={() => setHidden(!hidden)}
+              //https://medium.com/the-andela-way/custom-select-dropdown-in-react-1758c1f6f537 tatt logikk her fra
             >
-              {dropDownCities.map((option) => (
+              {selectedOption || "Alle"}
+            </StyledFilterButton>
+            {!hidden && (
+              <DropdownMenu hidden={hidden} toggle={() => setHidden(!hidden)}>
+                {dropDownCities.map((option) => (
+                  <DropdownItem
+                    onClick={onOptionClicked(option)}
+                    activeClassName="active"
+                    key={Math.random()}
+                  >
+                    {option}
+                  </DropdownItem>
+                ))}
                 <DropdownItem
-                  onClick={onOptionClicked(option)}
+                  onClick={onOptionClicked("Alle")}
                   activeClassName="active"
-                  key={Math.random()}
                 >
-                  {option}
+                  Alle
                 </DropdownItem>
-              ))}
-              <DropdownItem
-                onClick={onOptionClicked("Alle")}
-                activeClassName="active"
-              >
-                Alle
-              </DropdownItem>
-            </DropdownMenu>
-          )}
-        </Dropdown>
+              </DropdownMenu>
+            )}
+          </Dropdown>
 
-        <Logo src={listSort} onClick={handleOnClickList} />
-        <Logo src={gridSort} onClick={handleOnClickGrid} />
-      </FilterBox>
-    </Cell>
+          <Logo src={listSort} onClick={handleOnClickList} />
+          <Logo src={gridSort} onClick={handleOnClickGrid} />
+        </FilterBox>
+      </Cell>
     </>
-  )
+  );
 
-  const ListView = () => (
-    filteredCities.map(
-      (city, index) =>
-        offices &&
-        offices
-          .filter((office) => office.city == city)
-          .map((office) => (
-            <Grid columns={12}>
-              <Cell width={12}>
-                <Styles.Title>{city}</Styles.Title>
-              </Cell>
-            </Grid>
-          ))
-    )
-  )
-
-
-  const GridView = () => (
-    filteredCities.map(city => {
-      const offices = mappedOffices.get(city)
+  const ListView = () =>
+    filteredCities.map((city) => {
+      const offices = mappedOffices.get(city);
       return offices ? (
         <>
           <Cell width={12}>
             <Styles.Title>{city}</Styles.Title>
           </Cell>
-          {
-          offices.map((office, index) => (
+          {offices.map((office, index) => (
             <Cell width={3}>
               <CompanyCard>
-                <h1>Text:{office.name}</h1>
+                <h1>Text:{office._id}</h1>
                 <p key={index}>Nummer:{index}</p>
                 <p>Text{office.email}</p>
                 <p>Text{office.city}</p>
               </CompanyCard>
-          </Cell>
+            </Cell>
           ))}
-          </>
-    ) : null
-  })
-  )
+        </>
+      ) : null;
+    });
+  const GridView = () =>
+    filteredCities.map((city) => {
+      const offices = mappedOffices.get(city);
+      return offices ? (
+        <>
+          <Cell width={12}>
+            <Styles.Title>{city}</Styles.Title>
+          </Cell>
+          {offices.map((office, index) => (
+            <Cell width={3}>
+              <CompanyCard>
+                <h1>Text:{office._id}</h1>
+                <p key={index}>Nummer:{index}</p>
+                <p>Text{office.email}</p>
+                <p>Text{office.city}</p>
+              </CompanyCard>
+            </Cell>
+          ))}
+        </>
+      ) : null;
+    });
 
   //                                {idex==0 ? <div><Logo src={listSort} onClick={handleOnClickGrid} />
   // <Logo src={gridSort} onClick={handleOnClickList} /> </div>: null}
@@ -276,11 +263,7 @@ const Kontorer = () => {
       <GridContainer>
         <Grid columns={12}>
           <Header />
-            {
-              useListView
-              ? <ListView />
-              : <GridView />
-            }
+          {useListView ? <ListView /> : <GridView />}
         </Grid>
       </GridContainer>
     </>
