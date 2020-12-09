@@ -149,12 +149,7 @@ const FagartikkelForm = () => {
       setDisabled(!disabled);
   }
   
-  const stopUserFromTyping = (e) => {
-    //https://stackoverflow.com/questions/33407126/reactjs-onchange-prevent-user-keep-typing
-    
-    setDisabled(!disabled);
-    
-  }
+  
       return(
           <>
           <Styles.TitleBox><h1><Title>Velkommen til FG Rørleggerservice AS</Title></h1></Styles.TitleBox>
