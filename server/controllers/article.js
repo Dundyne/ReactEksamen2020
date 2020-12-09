@@ -2,14 +2,19 @@ import catchAsyncErrors from '../middleware/catchAsync.js';
 import ErrorHandler from '../utils/errorHandler.js';
 import { articleService } from '../services/index.js';
 export const get = catchAsyncErrors(async (req, res, next) => {
-  const article = await articleService.getArticleById(req.params.id);
+  
+  const article = await articleService.getArticleById(req.params.id)
+
   if (!article) {
     return next(
       new ErrorHandler(`Finner ikke article med ${req.params.id}`, 404)
     );
   }
-  res.status(201).json({ success: true, data: article });
-});
+  res.status(201).json({ success: true, data: article});
+},   
+  
+);
+
 
 export const list = catchAsyncErrors(async (req, res, next) => {
     const articles = await articleService.listArticles();
@@ -17,7 +22,7 @@ export const list = catchAsyncErrors(async (req, res, next) => {
   });
 
 export const create = catchAsyncErrors(async (req, res, next) => {
-  //req.body.user = req.user.id;
+  req.body.admin = req.user.id;
   const article = await articleService.createArticle(req.body);
   res.status(201).json({ success: true, data: article });
 });

@@ -4,10 +4,12 @@ import Hjem from '../pages/HjemPage';
 import Kontorer from '../pages/KontorerPage';
 import KontorerForm from '../pages/KontorerFormPage';
 import FagartikkelForm from '../pages/FagartikkelFormPage';
+import KontaktSide from '../pages/KontaktPage';
 import Fagartikler from '../pages/FagartiklerPage';
 import UserForm from '../pages/UserFormPage';
 import LoginForm from '../pages/LoginFormPage';
 import ArtikkelVisning from '../pages/ArtikkelVisningPage';
+import Aggregering from '../pages/AggregeringPage';
 
 import { useAuthContext } from "../context/AuthProvider";
 import {
@@ -17,6 +19,16 @@ import {
   Redirect,
 } from 'react-router-dom';
 
+const AdminRoutes = ({ children, ...rest }) => {
+  const { isLoggedIn, isAdmin, isLoading } = useAuthContext();
+
+  return (
+    <Route
+      {...rest}
+      render={() => isLoggedIn && isAdmin && !isLoading && children}
+    />
+  );
+};
 
 const AuthenticatedRoutes = ({ children, ...rest }) => {
   const { isLoggedIn, isLoading } = useAuthContext();
@@ -60,9 +72,12 @@ const Routes = () => (
           <Route exact path="/kontorerForm">
             <KontorerForm />
           </Route>
-          <Route exact path ="/fagartikkelForm">
+        
+          <AdminRoutes exact path ="/fagartikkelForm">
             <FagartikkelForm/>
-          </Route>
+           
+          </AdminRoutes>
+         
           <Route exact path ="/artikkelVisning/:id">
             <ArtikkelVisning />
           </Route>
@@ -72,7 +87,13 @@ const Routes = () => (
         <Route exact path = '/loginForm'>
           
           <LoginForm/>
+          </Route>
+          <Route exact path="/aggregering">
+            <Aggregering/>
+          </Route>
           
+        <Route exact path = "/kontaktSide">
+          <KontaktSide/>
         </Route>
         
         

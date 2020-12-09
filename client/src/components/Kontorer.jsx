@@ -44,7 +44,7 @@ const Title = styled.h1`
 const CompanyCard = styled.section`
     display: flex;
     flex-wrap: wrap;
-    max-width: 300px;
+    
     height: 150px;
     padding: 20px;
     margin: 0, 20px;
@@ -215,14 +215,14 @@ const Kontorer = () => {
             <Styles.Title>{city}</Styles.Title>
           </Cell>
           {offices.map((office, index) => (
-            <Cell width={3}>
+            <Cell width={12}>
               <CompanyCard>
                 <h1>Text:{office._id}</h1>
                 <p key={index}>Nummer:{index}</p>
                 <p>Text{office.email}</p>
                 <p>Text{office.city}</p>
               </CompanyCard>
-            </Cell>
+              </Cell>
           ))}
         </>
       ) : null;
@@ -261,7 +261,7 @@ const Kontorer = () => {
       </Styles.TitleBox>
 
       <GridContainer>
-        <Grid columns={12}>
+        <Grid columns={12} justify-content="space-between" >
           <Header />
           {useListView ? <ListView /> : <GridView />}
         </Grid>

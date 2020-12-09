@@ -104,6 +104,9 @@ const FagartikkelForm = () => {
     const [filteredCategories, setFilteredCategories] = useState([""]);
     const [filteredCategoriesCath, setFilteredCategoriesCath] = useState([""]);
     const [isOpen, setIsOpen] = useState(false);
+    const [checked, setChecked] = useState(false);
+    const [checkBox, setCheckBox] = useState(false);
+    
     //trengs ikke da man kan bare skrive disabled: true const [disabled, setDisabled] = useState(false)
     const [disabled, setDisabled] = useState(false);
     const [input, setInput] = useState("");
@@ -149,6 +152,10 @@ const FagartikkelForm = () => {
       setDisabled(!disabled);
   }
   
+  const handleClickCheck = () =>{
+    setChecked(!checked)
+    checked? setCheckBox(false): setCheckBox(true)
+}
   
       return(
           <>
@@ -293,7 +300,18 @@ const FagartikkelForm = () => {
                       )}
                       </Dropdown>
   
-  
+                      <FormLabel htmlFor="secrets">Click for secret article</FormLabel>
+                                <Input
+                                type="checkbox"
+                                name="secrets"
+                                id="secrets"
+                                defaultChecked={checkBox}
+                                value={checkBox}
+                                onClick={handleClickCheck}
+                                ref={register({
+                                    required: false,
+                                })}
+                                />
   
   
                       <LastButton

@@ -25,7 +25,7 @@ const UserSchema = new Schema(
         message: 'Rolle ikke fylt ut',
       },
       default: 'user',
-      required: false
+      required: true,
     },
   },
   { timestamps: true, toJSON: { virtuals: true }, toObject: { virtuals: true } }
@@ -47,7 +47,12 @@ UserSchema.methods.comparePassword = async function (password) {
   return result;
 };
 
-
+UserSchema.virtual('articles', {
+  ref: 'Article',
+  localField: '_id',
+  foreignField: 'user',
+  justOne: false,
+});
 const User = mongoose.model('User', UserSchema);
 
 export default User;

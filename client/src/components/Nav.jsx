@@ -3,6 +3,7 @@ import React from 'react';
 import { NavLink } from 'react-router-dom';
 import styled from 'styled-components';
 import { useAuthContext } from "../context/AuthProvider";
+import { logout } from '../utils/authService';
 const StyledButton = styled.button`
 display: block; 
 width: 120px;
@@ -77,6 +78,14 @@ const NavMenuItem = styled.li`
 
 const Nav = () => {
 
+  const {isLoggedIn, isAdmin, setUser} = useAuthContext();
+  
+  const handleLogout = async () => {
+    await logout();
+    setUser(null);
+  }
+
+
   return(
   <StyledNav>
   <NavMenu>
@@ -96,20 +105,40 @@ const Nav = () => {
       </NavLink>
     </NavMenuItem>
     <NavMenuItem>
-      <NavLink exact to="/registrationForm" activeClassName="active">
+      <NavLink exact to="/kontaktSide" activeClassName="active">
         Kontakt
       </NavLink>
     </NavMenuItem>
 
-      <NavMenuItem>
-        
-      <NavLink exact to="/loginForm" activeClassName="active">
+    <NavMenuItem>
+      <NavLink exact to ="/aggregering" activeClassName="active">
+        Aggregering
+      </NavLink>
+      
+    </NavMenuItem>
 
+
+    {!isLoggedIn && (
+
+  
+      <NavMenuItem>
+      <NavLink exact to="/loginForm" activeClassName="active">
         <StyledButton>LOGG INN</StyledButton>
 
         </NavLink>
         </NavMenuItem>
-        
+        )}
+
+      {isLoggedIn && (
+         <NavMenuItem>
+         <NavLink exact to="/loginForm" activeClassName="active">
+           <StyledButton onClick={handleLogout}>LOGG UT</StyledButton>
+          </NavLink>
+          </NavMenuItem>
+
+      )}
+
+
   </NavMenu>
 </StyledNav>
 );}

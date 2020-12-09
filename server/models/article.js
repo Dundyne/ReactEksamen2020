@@ -28,10 +28,18 @@ const ArticleSchema = new Schema(
             type: String,
             required: false
         },
+        clicks: {
+            type: Number,
+            required: false
+        },
         admin: {
             type: mongoose.Schema.ObjectId,
             ref: 'User',
             required: false,
+        },
+        secrets: {
+            type: Boolean,
+            required: false
         },
     },
         

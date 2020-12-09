@@ -59,6 +59,9 @@ const UserForm = () => {
   const [closeBtnState, setCloseBtnState] = useState(false);
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState(false);
+  const [checked, setChecked] = useState(false);
+  const [checkBox, setCheckBox] = useState("");
+  const [rolevalue, setRolevalue] = useState("");
 
   //Skjønner ikke history
   const history = useHistory();
@@ -66,6 +69,11 @@ const UserForm = () => {
   const { register, errors, handleSubmit, formState } = useForm({
     mode: "onBlur",
   });
+
+  const handleClickCheck = () =>{
+      setChecked(!checked)
+      checked? setCheckBox("admin"): setCheckBox("user")
+  }
 
   const onSubmit = async (formData) => {
     const { data } = await createUser(formData);
@@ -75,7 +83,7 @@ const UserForm = () => {
     } else {
       setSuccess(true);
       setError(null);
-
+      setCheckBox("user");
       console.log(formData);
       setTimeout(() => {
         history.push(`/`);
@@ -112,7 +120,21 @@ const UserForm = () => {
             required: true,
           })}
         />
+          
+          <FormLabel htmlFor="role">Click for admin</FormLabel>
+        <Input
+          type="checkbox"
+          name="role"
+          id="role"
+          defaultChecked={checkBox}
+          value={checkBox}
+          onClick={handleClickCheck}
+          ref={register({
+            required: false,
+          })}
+          />
 
+          
 
         <Button isLoading={formState.isSubmitting} type="submit">
           Opprett en bruker
@@ -123,12 +145,5 @@ const UserForm = () => {
 };
 
 export default UserForm;
-/**        <FormLabel>Click for admin</FormLabel>
-        <Input
-          type="checkbox"
-          name="role"
-          id="role"
-          ref={register({
-            required: false,
-          })}
-        /> */
+       
+        

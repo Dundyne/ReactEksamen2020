@@ -2,7 +2,7 @@ import styled from "styled-components";
 import React, { useState, useEffect } from "react";
 import { Styles } from "../StyledComponents/index.js";
 import { useForm } from "react-hook-form";
-import { useHistory, useLocation } from "react-router-dom";
+import { NavLink, useHistory, useLocation } from "react-router-dom";
 import { login } from "../utils/authService";
 import { useAuthContext } from "../context/AuthProvider";
 //lånt en del css fra https://www.w3schools.com/css/css_form.asp
@@ -95,7 +95,9 @@ const LoginForm = () => {
         </h1>
       </Styles.TitleBox>
      
-     
+     <NavLink to="/registrationForm">
+        <Button>halla</Button>
+     </NavLink>
      
      
       <FormContainer onSubmit={handleSubmit(onSubmit)}>

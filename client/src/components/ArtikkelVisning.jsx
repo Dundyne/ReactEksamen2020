@@ -130,11 +130,15 @@ const ArtikkelVisning = () => {
          
            <FlexContainer>
            <Grid columns={12}>
-            <Cell width={6}><TitleText>{article.author}</TitleText></Cell>
+          <Cell width={6}><TitleText>{article.author}</TitleText></Cell>
             <Cell width={6}><TitleText1>{article.date }</TitleText1></Cell>
-            
             </Grid>
-
+            
+            
+            <Grid columns={2}>
+          <Cell width={1}><TitleText><p>Created by admin</p></TitleText>{article.admin}</Cell>
+            </Grid>
+            
             <Grid columns={12}>
             <Cell width={12}><IngressParagraph>{article.ingress}</IngressParagraph></Cell>
             </Grid>
@@ -159,6 +163,9 @@ const ArtikkelVisning = () => {
            <Cell width={12}><BottomText>{article.category}</BottomText></Cell>
            </Grid>
           
+          <Grid coliumns={12}>
+          <Cell width={12}><p>{article.clicks} så mange klikks</p></Cell>
+          </Grid>
           
            <Grid columns={12}>
            <Cell width={4}><BottomText><StyledButtonRed>SLETT</StyledButtonRed></BottomText></Cell>

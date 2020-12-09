@@ -6,7 +6,9 @@ import { sendMail } from '../utils/sendEmail.js';
 
 export const register = catchAsyncErrors(async (req, res, next) => {
   const user = await userService.createUser(req.body);
-  /*try {
+  
+  
+   try {
     await sendMail({
       email: user.email,
       subject: 'Velkommen som bruker',
@@ -15,9 +17,33 @@ export const register = catchAsyncErrors(async (req, res, next) => {
   } catch (error) {
     console.log(error);
   }
-  */
+  
   sendToken(user, res);
 });
+
+
+
+
+/*
+export const sendMail = catchAsyncErrors(async(req, res, next) => {
+  
+  const user = await userService.getUserById(req.user.id);
+  
+  if (!user) {
+    return next(new ErrorHandler('Finner ikke brukeren', 404));
+  }
+  try{
+      await sendMail({
+        email: "user.email",
+        subject: 'Bekreftelse',
+        message: 'Her er bekreftelse på bekreftelsen',
+      });
+    }
+  catch(error) {
+    console.log(error);
+  }
+});
+*/
 
 export const login = catchAsyncErrors(async (req, res, next) => {
   const { email, password } = req.body;

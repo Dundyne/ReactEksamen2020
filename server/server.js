@@ -61,10 +61,10 @@ app.use(
 
 app.use(cookieParser());
 
-
+/*
 app.get(`${process.env.BASEURL}/csrf-token`, (req, res) => {
   res.status(200).json({ data: req.csrfToken() });
-});
+});*/
 
 app.use(`${process.env.BASEURL}/articles`, article);
 app.use(`${process.env.BASEURL}/offices`, office);
