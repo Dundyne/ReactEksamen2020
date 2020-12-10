@@ -1,27 +1,24 @@
-import styled from "styled-components";
-import React, { useState, useEffect, useMemo } from "react";
-import { Styles } from "../StyledComponents/index.js";
-import { Grid, Cell } from "styled-css-grid";
-import listSort from "../images/list_sort.png";
-import gridSort from "../images/grid_sort.png";
-import { NavLink } from "react-router-dom";
-import officeService from "../utils/officeService.js";
+import styled from 'styled-components';
+import React, { useState, useEffect } from 'react';
+import { Grid, Cell } from 'styled-css-grid';
+import { NavLink } from 'react-router-dom';
 import {
   Dropdown,
   DropdownItem,
   DropdownMenu,
-} from "styled-dropdown-component";
-//From https://www.npmjs.com/package/styled-dropdown-component
+} from 'styled-dropdown-component';
+// eslint-disable-next-line import/named
+import { Styles } from '../StyledComponents/index.js';
+import listSort from '../images/list_sort.png';
+import gridSort from '../images/grid_sort.png';
+import officeService from '../utils/officeService.js';
+// From https://www.npmjs.com/package/styled-dropdown-component
 
 export const TitleBox = styled.header`
   height: 300px;
   box-shadow: inset 0 -3em 3em rgba(0, 0, 0, 0.1), 0 0 0 2px rgb(255, 255, 255),
     0.3em 0.3em 1em rgba(0, 0, 0, 0.3);
   margin-bottom: 20px;
-`;
-
-const DivButton = styled.div`
-  background-image: url(${listSort});
 `;
 
 const Logo = styled.img`
@@ -66,44 +63,18 @@ const StyledFilterButton = styled.button`
   font-size: 15px;
 `;
 
-const ListViewContainer = styled.section`
-  display: block;
-  width: 200px;
-  height: 200px;
-  background-color: gray;
-  color: white;
-  text-align: center;
-  vertical-align: middle;
-  cursor: pointer;
-`;
-
-const OfficeButtonContainer = styled.button`
-  display: flex;
-`;
-
 const Kontorer = () => {
   const [offices, setOffices] = useState([]);
 
   const [useListView, setUseListView] = useState(false);
   const [error, setError] = useState(null);
-  const [loading, setLoading] = useState(false);
+  const [, setLoading] = useState(false);
   const [filteredCities, setFilteredCities] = useState([]);
 
   const dropDownCities = [...new Set(offices.map((item) => item.city))];
 
-  const [isOpen, setIsOpen] = useState(false);
   const [selectedOption, setSelectedOption] = useState(null);
   const [hidden, setHidden] = useState(true);
-
-  const mappedOffices = groupBy(offices, (office) => office.city);
-
-  // const [ searchString, setSearchString ] = useState("")
-
-  const unique = [...new Set(offices.map((item) => item.city))];
-
-  //const searchFilteredOffices = offices.filter(office.value.includes(searchString))
-
-  //const grouped = groupBy(pets, pet => pet.type);
 
   function groupBy(list, keyGetter) {
     const map = new Map();
@@ -118,10 +89,11 @@ const Kontorer = () => {
     });
     return map;
   }
-
+  const mappedOffices = groupBy(offices, (office) => office.city);
   useEffect(() => {
     const fetchData = async () => {
       setLoading(true);
+      // eslint-disable-next-line import/no-named-as-default-member
       const { data } = await officeService.list();
       if (!data.success) {
         setError(error);
@@ -135,17 +107,14 @@ const Kontorer = () => {
     fetchData();
   }, []);
 
-  const toggling = () => setIsOpen(!isOpen);
-
   const onOptionClicked = (value) => () => {
     setSelectedOption(value);
-    if (value == "Alle") {
+    if (value === 'Alle') {
       setFilteredCities(dropDownCities);
     } else {
       setFilteredCities([value]);
     }
 
-    setIsOpen(false);
     console.log(selectedOption);
   };
 
@@ -155,10 +124,6 @@ const Kontorer = () => {
 
   const handleOnClickList = () => {
     setUseListView(true);
-  };
-
-  const handleOnClickFilter = (city) => {
-    filteredCities = [city];
   };
 
   const Header = () => (
@@ -174,9 +139,9 @@ const Kontorer = () => {
             <StyledFilterButton
               dropdownToggle
               onClick={() => setHidden(!hidden)}
-              //https://medium.com/the-andela-way/custom-select-dropdown-in-react-1758c1f6f537 tatt logikk her fra
+              // https://medium.com/the-andela-way/custom-select-dropdown-in-react-1758c1f6f537 tatt logikk her fra
             >
-              {selectedOption || "Alle"}
+              {selectedOption || 'Alle'}
             </StyledFilterButton>
             {!hidden && (
               <DropdownMenu hidden={hidden} toggle={() => setHidden(!hidden)}>
@@ -190,7 +155,7 @@ const Kontorer = () => {
                   </DropdownItem>
                 ))}
                 <DropdownItem
-                  onClick={onOptionClicked("Alle")}
+                  onClick={onOptionClicked('Alle')}
                   activeClassName="active"
                 >
                   Alle
@@ -208,6 +173,7 @@ const Kontorer = () => {
 
   const ListView = () =>
     filteredCities.map((city) => {
+      // eslint-disable-next-line no-shadow
       const offices = mappedOffices.get(city);
       return offices ? (
         <>
@@ -217,7 +183,7 @@ const Kontorer = () => {
           {offices.map((office, index) => (
             <Cell width={12}>
               <CompanyCard>
-              <NavLink to={`kontorVisning/${office._id}`}>
+                <NavLink to={`kontorVisning/${office._id}`}>
                   Trykk her for å se mer...
                 </NavLink>
                 <h1>Text:{office._id}</h1>
@@ -225,13 +191,14 @@ const Kontorer = () => {
                 <p>Text{office.email}</p>
                 <p>Text{office.city}</p>
               </CompanyCard>
-              </Cell>
+            </Cell>
           ))}
         </>
       ) : null;
     });
   const GridView = () =>
     filteredCities.map((city) => {
+      // eslint-disable-next-line no-shadow
       const offices = mappedOffices.get(city);
       return offices ? (
         <>
@@ -241,7 +208,7 @@ const Kontorer = () => {
           {offices.map((office, index) => (
             <Cell width={3}>
               <CompanyCard>
-              <NavLink to={`kontorVisning/${office._id}`}>
+                <NavLink to={`kontorVisning/${office._id}`}>
                   Trykk her for å se mer...
                 </NavLink>
                 <h1>Text:{office._id}</h1>
@@ -267,7 +234,7 @@ const Kontorer = () => {
       </Styles.TitleBox>
 
       <GridContainer>
-        <Grid columns={12} justify-content="space-between" >
+        <Grid columns={12} justify-content="space-between">
           <Header />
           {useListView ? <ListView /> : <GridView />}
         </Grid>
@@ -277,55 +244,3 @@ const Kontorer = () => {
 };
 
 export default Kontorer;
-
-/**
- *         {useListView
-          ? filteredCities.map(
-            (city, index) =>
-                offices &&
-                offices
-                  .filter((office) => office.city == city)
-                  .map((office) => (
-                    <Grid columns={12}>
-                      <Cell width={12}>
-                        <Styles.Title>{city}</Styles.Title>
-                      </Cell>
-                      <p>
-                        {office.name}
-                        
-                        {office.email}
-                        {office.city}
-                      </p>
-                    </Grid>
-                  ))
-                  )
-
-          : filteredCities.map(
-              (city) =>
-                offices &&
-                offices
-                  .filter((office) => office.city == city)
-                  .map((office, index) => 
-
-                    
-                        {index==0 ? 
-                            <Grid columns={12}>
-                            <Cell width={12}>
-                        <Styles.Title>{city}</Styles.Title>
-                      </Cell>
-                      </Grid> : null }
-                      
-                      
-                      
-                        <Cell width={3}>
-                          <CompanyCard>
-                            <h1>Text:{office.name}</h1>
-                            <p key={index}>Nummer:{index}</p>
-                            <p>Text{office.email}</p>
-                            <p>Text{office.city}</p>
-                          </CompanyCard>
-                        </Cell>
-                      
-                  ))
-            }
- */

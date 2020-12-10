@@ -1,19 +1,21 @@
-import styled from "styled-components";
-import React, { useState, useEffect } from "react";
-import { Styles } from "../StyledComponents/index.js";
-import { Grid, Cell } from "styled-css-grid";
-import listSort from "../images/list_sort.png";
-import gridSort from "../images/grid_sort.png";
-import { NavLink } from "react-router-dom";
-import articleService from "../utils/articleService.js";
-import authService from "../utils/authService";
-
-import { useAuthContext } from "../context/AuthProvider";
+/* eslint-disable no-param-reassign */
+/* eslint-disable no-use-before-define */
+import styled from 'styled-components';
+import React, { useState, useEffect } from 'react';
+import { Grid, Cell } from 'styled-css-grid';
+import { NavLink } from 'react-router-dom';
 import {
   Dropdown,
   DropdownItem,
   DropdownMenu,
-} from "styled-dropdown-component";
+} from 'styled-dropdown-component';
+// eslint-disable-next-line import/named
+import { Styles } from '../StyledComponents/index.js';
+
+import articleService from '../utils/articleService.js';
+
+import { useAuthContext } from '../context/AuthProvider';
+
 const Button = styled.button`
   width: 100%;
   background-color: #4198e5;
@@ -36,14 +38,7 @@ export const TitleBox = styled.header`
   margin-bottom: 20px;
 `;
 
-const Logo = styled.img`
-  width: 30px;
-  height: 30px;
-  margin: 15px;
-`;
-
 const GridContainer = styled.article`
-
   width: 60%;
   margin: auto;
 `;
@@ -54,7 +49,7 @@ const Title = styled.h1`
   font-size: 50px;
   font-weight: bold;
 `;
-  const CompanyCard = styled.section`
+const CompanyCard = styled.section`
     
   display: inline-flex;
   flex-wrap: wrap;
@@ -65,23 +60,12 @@ const Title = styled.h1`
 
 `;
 
-const FlexContainer = styled.div`
-
-max-width: 800px;
-margin: 0 auto;
-
-
-
-
-`
-const TitleText = styled.p `
-
-font-size: 20px;
-font-weight: bold;
-padding-top: 30px;
-width: 100%;
-`
-
+const TitleText = styled.p`
+  font-size: 20px;
+  font-weight: bold;
+  padding-top: 30px;
+  width: 100%;
+`;
 
 const FilterBox = styled.div`
   display: flex;
@@ -97,16 +81,6 @@ const StyledFilterButton = styled.button`
   font-size: 15px;
 `;
 
-const ListViewContainer = styled.section`
-  display: block;
-  width: 200px;
-  height: 200px;
-  background-color: gray;
-  color: white;
-  text-align: center;
-  vertical-align: middle;
-  cursor: pointer;
-`;
 const Input = styled.input`
   width: 100%;
   padding: 12px 20px;
@@ -116,22 +90,18 @@ const Input = styled.input`
   border-radius: 4px;
   box-sizing: border-box;
 `;
-const OfficeButtonContainer = styled.button`
-  display: flex;
-`;
 
 const Fagartikler = () => {
   const [articles, setArticles] = useState([]);
   const [error, setError] = useState(null);
-  const [loading, setLoading] = useState(false);
-  const [filteredCategories, setFilteredCategories] = useState([""]);
-  const { isLoggedIn, isAdmin, user, setUser } = useAuthContext();
+  const [filteredCategories, setFilteredCategories] = useState(['']);
+  const { isLoggedIn, isAdmin, user } = useAuthContext();
 
   const dropDownCategories = [
     ...new Set(articles.map((item) => item.category)),
   ];
 
-  const [ page, setPage ] = useState(0)
+  const [page, setPage] = useState(0);
 
   const paginate = function (array, index, size) {
     // transform values
@@ -141,33 +111,45 @@ const Fagartikler = () => {
     size = size < 1 ? 1 : size;
 
     // filter
-    return [...(array.filter((value, n) => {
-        return (n >= (index * size)) && (n < ((index+1) * size))
-    }))]
-}
+    return [
+      ...array.filter(
+        (value, n) => n >= index * size && n < (index + 1) * size
+      ),
+    ];
+  };
 
-  const [isOpen, setIsOpen] = useState(false);
   const [selectedOption, setSelectedOption] = useState(null);
   const [hidden, setHidden] = useState(true);
 
-  const [searchInput, setSearchInput] = useState("");
+  const [searchInput, setSearchInput] = useState('');
   const handleChange = (val) => {
     setSearchInput(val);
-    searchInput.length >= 0? setPage(1) : null;
+    // eslint-disable-next-line no-unused-expressions
+    searchInput.length >= 0 ? setPage(1) : null;
   };
 
-  const articleFilter = searchInput.length > 0 ? articles.filter( article => article.title.toLowerCase().includes(searchInput.toLowerCase()) ) : articles;
-  const paginatedArticles =  paginate(articleFilter, page, 5);
+  const articleFilter =
+    searchInput.length > 0
+      ? articles.filter((article) =>
+          article.title.toLowerCase().includes(searchInput.toLowerCase())
+        )
+      : articles;
+  const paginatedArticles = paginate(articleFilter, page, 5);
 
-  const mappedArticles = groupBy(paginatedArticles, (article) => article.category);
+  const mappedArticles = groupBy(
+    paginatedArticles,
+    (article) => article.category
+  );
 
   const pageButtons = [];
 
-  for (let index = 0; index < articleFilter.length/5; index++) {
+  // eslint-disable-next-line no-plusplus
+  for (let index = 0; index < articleFilter.length / 5; index++) {
     pageButtons.push(
-    <StyledFilterButton key={index} onClick={() => setPage(index+1) }>Page {index+1}</StyledFilterButton>
-    )
-    
+      <StyledFilterButton key={index} onClick={() => setPage(index + 1)}>
+        Page {index + 1}
+      </StyledFilterButton>
+    );
   }
 
   function groupBy(list, keyGetter) {
@@ -186,7 +168,7 @@ const Fagartikler = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-      setLoading(true);
+      // eslint-disable-next-line import/no-named-as-default-member
       const { data } = await articleService.list();
 
       if (!data.success) {
@@ -199,67 +181,42 @@ const Fagartikler = () => {
         ]);
         setError(null);
       }
-      setLoading(false);
     };
     fetchData();
   }, []);
 
-  const handleText = (event) => {
-    setSearchText(event.target.value);
-  };
-
-  const handleSearch = () => {
-    setSearch(searchText);
-  };
-
-  const toggling = () => setIsOpen(!isOpen);
-
   const onOptionClicked = (value) => () => {
     setSelectedOption(value);
-    if (value == "Alle") {
+    if (value === 'Alle') {
       setFilteredCategories(dropDownCategories);
     } else {
       setFilteredCategories([value]);
     }
 
-    setIsOpen(false);
     console.log(selectedOption);
   };
 
   const SafeView = () =>
     filteredCategories.map((category) => {
+      // eslint-disable-next-line no-shadow
       const articles = mappedArticles.get(category);
 
       return articles ? (
         <>
-          {articles.map((article, index) => (
-            
-           
-       
+          {articles.map((article) => (
             <Cell width={12}>
-
               {!article.secrets ? (
-               
-               <CompanyCard>
+                <CompanyCard>
                   <NavLink to={`artikkelVisning/${article._id}`}>
                     Trykk her for å se mer...
                   </NavLink>
-                
                   <h1>ID: {article._id}</h1>
-                  
                   <TitleText>{article.title}</TitleText>
                   <p>Ingress: {article.ingress}</p>
-                  <p>Secrets: {article.secrets}</p>
+                  <p>Category: {article.category}</p>
                 </CompanyCard>
-                
-              
               ) : null}
-              </Cell>
-      
-            
-      
-         
-           
+            </Cell>
           ))}
         </>
       ) : null;
@@ -267,31 +224,22 @@ const Fagartikler = () => {
 
   const SecretView = () =>
     filteredCategories.map((category) => {
+      // eslint-disable-next-line no-shadow
       const articles = mappedArticles.get(category);
       return articles ? (
         <>
-          {articles.map((article, index) => (
-             
-
-              
+          {articles.map((article) => (
             <Cell width={12}>
               <CompanyCard>
                 <NavLink to={`artikkelVisning/${article._id}`}>
                   Trykk her for å se mer...
                 </NavLink>
-                <h1>ID: {article._id}</h1>
                 <TitleText>{article.title}</TitleText>
                 <p>Ingress: {article.ingress}</p>
-                <p>Secrets: {article.secrets}</p>
+                <p>Category: {article.category}</p>
               </CompanyCard>
             </Cell>
-           
-
-            
-         
-         
-         
-         ))}
+          ))}
         </>
       ) : null;
     });
@@ -314,17 +262,15 @@ const Fagartikler = () => {
               </NavLink>
             ) : (
               <NavLink exact to="/fagartikkelForm" activeClassName="active">
-                <StyledFilterButton disabled={true}>
+                <StyledFilterButton disabled>
                   Log in som Admin for å lage artikkel
                 </StyledFilterButton>
               </NavLink>
             )}
           </Cell>
           <Cell width={8}>
-
-            
             <Input
-            placeholder="Search for articles here.."
+              placeholder="Search for articles here.."
               type="text"
               value={searchInput}
               onChange={(e) => handleChange(e.target.value)}
@@ -335,9 +281,9 @@ const Fagartikler = () => {
                 <StyledFilterButton
                   dropdownToggle
                   onClick={() => setHidden(!hidden)}
-                  //https://medium.com/the-andela-way/custom-select-dropdown-in-react-1758c1f6f537 tatt logikk her fra
+                  // https://medium.com/the-andela-way/custom-select-dropdown-in-react-1758c1f6f537 tatt logikk her fra
                 >
-                  {selectedOption || "Alle"}
+                  {selectedOption || 'Alle'}
                 </StyledFilterButton>
                 {!hidden && (
                   <DropdownMenu
@@ -354,7 +300,7 @@ const Fagartikler = () => {
                       </DropdownItem>
                     ))}
                     <DropdownItem
-                      onClick={onOptionClicked("Alle")}
+                      onClick={onOptionClicked('Alle')}
                       activeClassName="active"
                     >
                       Alle
@@ -367,7 +313,7 @@ const Fagartikler = () => {
 
           {isAdmin ? <SecretView /> : <SafeView />}
 
-                  {pageButtons}
+          {pageButtons}
         </Grid>
       </GridContainer>
     </>

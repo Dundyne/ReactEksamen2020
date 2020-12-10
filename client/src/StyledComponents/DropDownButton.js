@@ -1,18 +1,18 @@
-import React, {Component} from "react";
-import styled from "styled-components";
+import React, { Component } from 'react';
+import styled from 'styled-components';
 
-const Main = styled("div")`
+const Main = styled('div')`
   font-family: sans-serif;
   background: #f0f0f0;
   height: 100vh;
 `;
 
-const DropDownContainer = styled("div")`
+const DropDownContainer = styled('div')`
   width: 10.5em;
   margin: 0 auto;
 `;
 
-const DropDownHeader = styled("div")`
+const DropDownHeader = styled('div')`
   margin-bottom: 0.8em;
   padding: 0.4em 2em 0.4em 1em;
   box-shadow: 0 2px 3px rgba(0, 0, 0, 0.15);
@@ -22,9 +22,9 @@ const DropDownHeader = styled("div")`
   background: #ffffff;
 `;
 
-const DropDownListContainer = styled("div")``;
+const DropDownListContainer = styled('div')``;
 
-const DropDownList = styled("ul")`
+const DropDownList = styled('ul')`
   padding: 0;
   margin: 0;
   padding-left: 1em;
@@ -39,33 +39,29 @@ const DropDownList = styled("ul")`
   }
 `;
 
-const ListItem = styled("li")`
+const ListItem = styled('li')`
   list-style: none;
   margin-bottom: 0.8em;
 `;
 
 class DropDownButton extends Component {
-    render(){
-  return (
-    <Main>
-      <h1>Custom Select/dropdown</h1>
-      <DropDownContainer>
-        <DropDownHeader>Mangoes</DropDownHeader>
-        <DropDownListContainer>
-          <DropDownList>
-            <ListItem>Mangoes</ListItem>
-            <ListItem>Apples</ListItem>
-            <ListItem>Oranges</ListItem>
-          </DropDownList>
-        </DropDownListContainer>
-      </DropDownContainer>
-    </Main>
-  );
-}}
+  render() {
+    return (
+      <Main>
+        <h1>Custom Select/dropdown</h1>
+        <DropDownContainer>
+          <DropDownHeader>Mangoes</DropDownHeader>
+          <DropDownListContainer>
+            <DropDownList>
+              <ListItem>Mangoes</ListItem>
+              <ListItem>Apples</ListItem>
+              <ListItem>Oranges</ListItem>
+            </DropDownList>
+          </DropDownListContainer>
+        </DropDownContainer>
+      </Main>
+    );
+  }
+}
 
 export default DropDownButton;
-
-
-
-
-

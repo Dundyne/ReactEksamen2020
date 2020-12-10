@@ -1,12 +1,14 @@
-import styled from "styled-components";
-import React, { useState } from "react";
-import { Styles } from "../StyledComponents/index.js";
-import { useForm } from "react-hook-form";
-import { useHistory } from "react-router-dom";
-import { createUser } from "../utils/userService";
+/* eslint-disable no-use-before-define */
+import styled from 'styled-components';
+import React, { useState } from 'react';
+import { useForm } from 'react-hook-form';
+import { useHistory } from 'react-router-dom';
+// eslint-disable-next-line import/named
+import { Styles } from '../StyledComponents/index.js';
+import { createUser } from '../utils/userService';
 
-//lånt en del css fra https://www.w3schools.com/css/css_form.asp
-//syns det var vrient å style forms
+// lånt en del css fra https://www.w3schools.com/css/css_form.asp
+// syns det var vrient å style forms
 
 const FormContainer = styled.form`
   width: 500px;
@@ -53,37 +55,27 @@ const Button = styled.button`
   }
 `;
 
-const CloseButton = styled.button``;
-
 const UserForm = () => {
-  const [closeBtnState, setCloseBtnState] = useState(false);
-  const [error, setError] = useState(null);
-  const [success, setSuccess] = useState(false);
   const [checked, setChecked] = useState(false);
 
-  const [rolevalue, setRolevalue] = useState("");
-
-  //Skjønner ikke history
+  // Skjønner ikke history
   const history = useHistory();
 
-  const { register, errors, handleSubmit, formState } = useForm({
-    mode: "onBlur",
+  const { register, handleSubmit, formState } = useForm({
+    mode: 'onBlur',
   });
 
-  const handleClickCheck = () =>{
-      setChecked(!checked)
-  }
+  const handleClickCheck = () => {
+    setChecked(!checked);
+  };
 
   const onSubmit = async (formData) => {
-    checked ? formData.role = "admin": formData.role = "user";
+    // eslint-disable-next-line no-unused-expressions
+    checked ? (formData.role = 'admin') : (formData.role = 'user');
     const { data } = await createUser(formData);
     if (!data.success) {
-      setCloseBtnState(true);
-      setError(data.message);
+      alert("Couldn't create user");
     } else {
-      setSuccess(true);
-      setError(null);
-
       console.log(formData);
       setTimeout(() => {
         history.push(`/`);
@@ -120,8 +112,8 @@ const UserForm = () => {
             required: true,
           })}
         />
-          
-          <FormLabel htmlFor="role">Click for admin</FormLabel>
+
+        <FormLabel htmlFor="role">Click for admin</FormLabel>
         <Input
           type="checkbox"
           name="role"
@@ -131,9 +123,7 @@ const UserForm = () => {
           ref={register({
             required: false,
           })}
-          />
-
-          
+        />
 
         <Button isLoading={formState.isSubmitting} type="submit">
           Opprett en bruker
@@ -144,5 +134,3 @@ const UserForm = () => {
 };
 
 export default UserForm;
-       
-        

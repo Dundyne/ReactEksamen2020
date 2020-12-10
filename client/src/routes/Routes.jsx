@@ -1,4 +1,7 @@
-import React, { lazy, Suspense } from 'react';
+/* eslint-disable react/jsx-props-no-spreading */
+/* eslint-disable react/prop-types */
+import React, { Suspense } from 'react';
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import MainLayout from '../layouts/MainLayout';
 import Hjem from '../pages/HjemPage';
 import Kontorer from '../pages/KontorerPage';
@@ -13,13 +16,7 @@ import KontorVisning from '../pages/KontorVisningPage';
 import Aggregering from '../pages/AggregeringPage';
 import FagartikkelRedigering from '../pages/FagartikkelRedigeringPage';
 
-import { useAuthContext } from "../context/AuthProvider";
-import {
-  BrowserRouter as Router,
-  Switch,
-  Route,
-  Redirect,
-} from 'react-router-dom';
+import { useAuthContext } from '../context/AuthProvider';
 
 const AdminRoutes = ({ children, ...rest }) => {
   const { isLoggedIn, isAdmin, isLoading } = useAuthContext();
@@ -31,29 +28,6 @@ const AdminRoutes = ({ children, ...rest }) => {
     />
   );
 };
-
-const AuthenticatedRoutes = ({ children, ...rest }) => {
-  const { isLoggedIn, isLoading } = useAuthContext();
-
-  return (
-    <Route
-      {...rest}
-      render={({ location }) =>
-        isLoggedIn && !isLoading ? (
-          <div>{children}</div>
-        ) : (
-          <Redirect
-            to={{
-              pathname: '/loginForm',
-              state: { from: location },
-            }}
-          />
-        )
-      }
-    />
-  );
-};
-
 
 const Routes = () => (
   <Router>
@@ -74,42 +48,36 @@ const Routes = () => (
           <Route exact path="/kontorerForm">
             <KontorerForm />
           </Route>
-        
-          <AdminRoutes exact path ="/fagartikkelForm">
-            <FagartikkelForm/>
-           
+
+          <AdminRoutes exact path="/fagartikkelForm">
+            <FagartikkelForm />
           </AdminRoutes>
-         
-          <Route exact path ="/artikkelVisning/:id">
+
+          <Route exact path="/artikkelVisning/:id">
             <ArtikkelVisning />
           </Route>
 
-          <Route exact path ="/kontorVisning/:id">
+          <Route exact path="/kontorVisning/:id">
             <KontorVisning />
           </Route>
 
-          <Route exact path ="/artikkelVisning/fagartikkelRedigering/:id">
+          <Route exact path="/artikkelVisning/fagartikkelRedigering/:id">
             <FagartikkelRedigering />
           </Route>
 
-        <Route exact path = "/registrationForm">
-          <UserForm/>
-        </Route>
-        <Route exact path = '/loginForm'>
-          
-          <LoginForm/>
+          <Route exact path="/registrationForm">
+            <UserForm />
+          </Route>
+          <Route exact path="/loginForm">
+            <LoginForm />
           </Route>
           <Route exact path="/aggregering">
-            <Aggregering/>
+            <Aggregering />
           </Route>
-          
-        <Route exact path = "/kontaktSide">
-          <KontaktSide/>
-        </Route>
 
-        
-        
-        
+          <Route exact path="/kontaktSide">
+            <KontaktSide />
+          </Route>
         </Switch>
       </Suspense>
     </MainLayout>

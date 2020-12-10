@@ -34,10 +34,3 @@ export const logout = async () => {
     return err.response;
   }
 };
-/*
-export const sendMail = async() => {
-  try{
-    return await http.post('/sendMails')
-  }catch (err)
-  {return err.response}
-}*/

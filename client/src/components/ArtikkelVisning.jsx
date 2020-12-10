@@ -1,10 +1,11 @@
-import React, { useState, useEffect } from "react";
-import { useHistory, useParams } from "react-router-dom";
-import { get, put, remove } from "../utils/articleService";
-import { Styles } from "../StyledComponents/index.js";
-import styled from "styled-components";
-import { Grid, Cell } from "styled-css-grid";
-import { NavLink } from "react-router-dom";
+import React, { useState, useEffect } from 'react';
+import { useHistory, useParams, NavLink } from 'react-router-dom';
+import styled from 'styled-components';
+import { Grid, Cell } from 'styled-css-grid';
+import { get, remove } from '../utils/articleService';
+
+// eslint-disable-next-line import/named
+import { Styles } from '../StyledComponents/index.js';
 
 const Title = styled.h1`
   text-align: center;
@@ -106,8 +107,8 @@ const ArtikkelVisning = () => {
   }, [id]);
 
   const deleteArticle = async () => {
-    const data = await remove(id);
-    alert("Article Deleted!");
+    await remove(id);
+    alert('Article Deleted!');
     setTimeout(() => {
       history.push(`/fagartikler`);
     }, 2000);
@@ -143,7 +144,7 @@ const ArtikkelVisning = () => {
               </Cell>
 
               <Cell width={12}>
-                <TitleMain>{"Subtittel"}</TitleMain>
+                <TitleMain>Subtittel</TitleMain>
               </Cell>
 
               <Cell width={12}>
@@ -151,7 +152,7 @@ const ArtikkelVisning = () => {
               </Cell>
 
               <Cell width={12}>
-                <TitleMain>{"Subtittel"}</TitleMain>
+                <TitleMain>Subtittel</TitleMain>
               </Cell>
 
               <Cell width={12}>

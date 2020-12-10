@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled from 'styled-components';
 
 const Main = styled.div`
   font-family: sans-serif;
@@ -8,20 +8,18 @@ const Main = styled.div`
 
 const DropDownContainer = styled.div`
   width: 10.5em;
-  
 `;
 
 const DropDownHeader = styled.div`
-    margin-bottom: 0;
-    padding: auto;
-    width: 120px;
-    height: 75px; 
-  background-color: #f5f1f1; 
+  margin-bottom: 0;
+  padding: auto;
+  width: 120px;
+  height: 75px;
+  background-color: #f5f1f1;
   text-align: center;
   color: black;
   font-weight: bold;
   font-size: 15px;
-
 `;
 /*
 padding: 0.4em 2em 0.4em 1em;
@@ -57,16 +55,15 @@ const ListItem = styled.li`
   margin-bottom: 0.8em;
 
   &.active {
-    color:black;
-  
-}
+    color: black;
+  }
 `;
 
 export {
-    Main,
-    DropDownContainer,
-    DropDownHeader,
-    DropDownListContainer,
-    DropDownList,
-    ListItem
-}
+  Main,
+  DropDownContainer,
+  DropDownHeader,
+  DropDownListContainer,
+  DropDownList,
+  ListItem,
+};

@@ -1,12 +1,14 @@
-import styled from "styled-components";
-import React, { useState, useEffect } from "react";
-import { Styles } from "../StyledComponents/index.js";
-import { useForm } from "react-hook-form";
-import { NavLink, useHistory, useLocation } from "react-router-dom";
-import { login } from "../utils/authService";
-import { useAuthContext } from "../context/AuthProvider";
-//lånt en del css fra https://www.w3schools.com/css/css_form.asp
-//syns det var vrient å style forms
+/* eslint-disable no-use-before-define */
+import styled from 'styled-components';
+import React, { useState, useEffect } from 'react';
+import { useForm } from 'react-hook-form';
+import { NavLink, useHistory, useLocation } from 'react-router-dom';
+// eslint-disable-next-line import/named
+import { Styles } from '../StyledComponents/index.js';
+import { login } from '../utils/authService';
+import { useAuthContext } from '../context/AuthProvider';
+// lånt en del css fra https://www.w3schools.com/css/css_form.asp
+// syns det var vrient å style forms
 
 const FormContainer = styled.form`
   width: 500px;
@@ -53,21 +55,17 @@ const Button = styled.button`
   }
 `;
 
-const CloseButton = styled.button``;
-
 const LoginForm = () => {
-  const [closeBtnState, setCloseBtnState] = useState(false);
-  const [error, setError] = useState(null);
   const [success, setSuccess] = useState(false);
   const { setUser, isLoggedIn } = useAuthContext();
   const history = useHistory();
   const { state } = useLocation();
 
-  const { register, errors, handleSubmit, formState } = useForm({
-    mode: "onBlur",
+  const { register, handleSubmit, formState } = useForm({
+    mode: 'onBlur',
   });
 
-  useEffect( () => {
+  useEffect(() => {
     if (isLoggedIn && state) {
       history.push(state?.from.pathname);
     }
@@ -76,14 +74,13 @@ const LoginForm = () => {
   const onSubmit = async (credentials) => {
     const { data } = await login(credentials);
     if (!data.success) {
-      setCloseBtnState(true);
-      setError(data.message);
+      alert('Login failed!');
     } else {
       const user = data?.user;
-      const expire = JSON.parse(window.atob(data.token.split(".")[1])).exp;
+      const expire = JSON.parse(window.atob(data.token.split('.')[1])).exp;
       setUser({ ...user, expire });
       setSuccess(true);
-      history.push("/");
+      history.push('/');
     }
   };
 
@@ -94,19 +91,13 @@ const LoginForm = () => {
           <Title>Velkommen til FG Rørleggerservice AS</Title>
         </h1>
       </Styles.TitleBox>
-     
-     <NavLink to="/registrationForm">
-        <Button>halla</Button>
-     </NavLink>
-     
-     
-      <FormContainer onSubmit={handleSubmit(onSubmit)}>
 
-      {success && (
-          
-            <div>Du er logget inn. Omdirigerer til forsiden ...</div>
-          
-        )}
+      <NavLink to="/registrationForm">
+        <Button>halla</Button>
+      </NavLink>
+
+      <FormContainer onSubmit={handleSubmit(onSubmit)}>
+        {success && <div>Du er logget inn. Omdirigerer til forsiden ...</div>}
         <FormLabel htmlFor="text">Email</FormLabel>
         <Input
           type="text"
@@ -128,8 +119,6 @@ const LoginForm = () => {
             required: true,
           })}
         />
-        
-        
 
         <Button isLoading={formState.isSubmitting} type="submit">
           Log In With User

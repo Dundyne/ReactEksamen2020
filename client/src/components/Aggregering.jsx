@@ -1,12 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 
-const Aggregering = () => {
-    return(
-        <React.Fragment>
-       <p>LOLOOOOOOOOOOOOOOOOOOOL</p>
-       <h1>HALLLAL</h1>
-        </React.Fragment>
-    );
-}
+const Aggregering = () => (
+  <>
+    <p>LOLOOOOOOOOOOOOOOOOOOOL</p>
+    <h1>HALLLAL</h1>
+  </>
+);
 
-export default Aggregering; 
+export default Aggregering;

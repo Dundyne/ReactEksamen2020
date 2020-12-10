@@ -1,17 +1,16 @@
-import styled from "styled-components";
-import React, { useState } from "react";
-import { Styles } from "../StyledComponents/index.js";
-import { useForm } from "react-hook-form";
-import { useHistory } from "react-router-dom";
-import { create } from "../utils/officeService";
-import { useAuthContext } from "../context/AuthProvider";
-import { NavLink } from "react-router-dom";
+/* eslint-disable no-use-before-define */
+import styled from 'styled-components';
+import React from 'react';
+import { useForm } from 'react-hook-form';
+import { useHistory } from 'react-router-dom';
+// eslint-disable-next-line import/named
+import { Styles } from '../StyledComponents/index.js';
 
-import {sendEmail} from "../utils/sendEmail";
+import { sendEmail } from '../utils/sendEmail';
 
-//import {sendMail} from "../utils.sendEmail"
-//lånt en del css fra https://www.w3schools.com/css/css_form.asp
-//syns det var vrient å style forms
+// import {sendMail} from "../utils.sendEmail"
+// lånt en del css fra https://www.w3schools.com/css/css_form.asp
+// syns det var vrient å style forms
 
 const FormContainer = styled.form`
   width: 500px;
@@ -58,33 +57,21 @@ const Button = styled.button`
   }
 `;
 
-const CloseButton = styled.button``;
-
 const KontorerForm = () => {
-  const [closeBtnState, setCloseBtnState] = useState(false);
-  const [error, setError] = useState(null);
-  const [success, setSuccess] = useState(false);
-  const { isLoggedIn, isAdmin, user, setUser } = useAuthContext();
-  //Skjønner ikke history
+  // Skjønner ikke history
   const history = useHistory();
 
-  const { register, errors, handleSubmit, formState } = useForm({
-    mode: "onBlur",
+  const { register, handleSubmit, formState } = useForm({
+    mode: 'onBlur',
   });
 
   const onSubmit = async (formData) => {
-    const { data } = await sendEmail(formData);
-    if (!data.success) {
-      setCloseBtnState(true);
-      setError(data.message);
-    } else {
-      setSuccess(true);
-      setError(null);
-      console.log(formData);
-      setTimeout(() => {
-        history.push(`/kontorer`);
-      }, 2000);
-    }
+    await sendEmail(formData);
+
+    console.log(formData);
+    setTimeout(() => {
+      history.push(`/kontorer`);
+    }, 2000);
   };
 
   return (
@@ -95,7 +82,6 @@ const KontorerForm = () => {
         </h1>
       </Styles.TitleBox>
       <FormContainer onSubmit={handleSubmit(onSubmit)}>
-
         <FormLabel htmlFor="subject">Subject</FormLabel>
         <Input
           type="text"
@@ -121,7 +107,6 @@ const KontorerForm = () => {
         <Button isLoading={formState.isSubmitting} type="submit">
           Send Melding
         </Button>
-        
       </FormContainer>
     </>
   );
@@ -129,4 +114,4 @@ const KontorerForm = () => {
 
 export default KontorerForm;
 
-//Navn
+// Navn
