@@ -60,7 +60,7 @@ const UserForm = () => {
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState(false);
   const [checked, setChecked] = useState(false);
-  const [checkBox, setCheckBox] = useState("");
+
   const [rolevalue, setRolevalue] = useState("");
 
   //Skjønner ikke history
@@ -72,10 +72,10 @@ const UserForm = () => {
 
   const handleClickCheck = () =>{
       setChecked(!checked)
-      checked? setCheckBox("admin"): setCheckBox("user")
   }
 
   const onSubmit = async (formData) => {
+    checked ? formData.role = "admin": formData.role = "user";
     const { data } = await createUser(formData);
     if (!data.success) {
       setCloseBtnState(true);
@@ -83,7 +83,7 @@ const UserForm = () => {
     } else {
       setSuccess(true);
       setError(null);
-      setCheckBox("user");
+
       console.log(formData);
       setTimeout(() => {
         history.push(`/`);
@@ -126,8 +126,7 @@ const UserForm = () => {
           type="checkbox"
           name="role"
           id="role"
-          defaultChecked={checkBox}
-          value={checkBox}
+          defaultChecked={checked}
           onClick={handleClickCheck}
           ref={register({
             required: false,
