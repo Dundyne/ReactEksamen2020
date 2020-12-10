@@ -1,13 +1,9 @@
 import styled from 'styled-components';
 import React from 'react';
 import { Grid, Cell } from 'styled-css-grid';
+// eslint-disable-next-line import/named
 import { Styles } from '../StyledComponents/index.js';
 
-const GridContainerMainPage = styled.main`
-  display: grid;
-  grid-template-columns: 1fr;
-  grid-template-rows: 100px;
-`;
 // vi syntes box shadow var vanskelig så vi lånte kode fra: https://developer.mozilla.org/en-US/docs/Web/CSS/box-shadow
 
 const MainBox = styled.section`

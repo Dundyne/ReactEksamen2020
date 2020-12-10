@@ -95,7 +95,7 @@ const Fagartikler = () => {
   const [articles, setArticles] = useState([]);
   const [error, setError] = useState(null);
   const [filteredCategories, setFilteredCategories] = useState(['']);
-  const { isLoggedIn, isAdmin, user } = useAuthContext();
+  const { isAdmin } = useAuthContext();
 
   const dropDownCategories = [
     ...new Set(articles.map((item) => item.category)),
@@ -252,7 +252,6 @@ const Fagartikler = () => {
         </h1>
       </Styles.TitleBox>
 
-      {isLoggedIn ? <div>Dette er IDen din: {user._id}</div> : null}
       <GridContainer>
         <Grid columns={12}>
           <Cell width={4}>

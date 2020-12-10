@@ -88,12 +88,12 @@ const LoginForm = () => {
     <>
       <Styles.TitleBox>
         <h1>
-          <Title>Velkommen til FG Rørleggerservice AS</Title>
+          <Title>Login</Title>
         </h1>
       </Styles.TitleBox>
 
       <NavLink to="/registrationForm">
-        <Button>halla</Button>
+        <Button>Registrer din bruker her</Button>
       </NavLink>
 
       <FormContainer onSubmit={handleSubmit(onSubmit)}>

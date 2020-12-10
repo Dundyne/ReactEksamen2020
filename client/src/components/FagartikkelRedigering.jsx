@@ -140,7 +140,7 @@ const FagartikkelRedigering = () => {
     <>
       <Styles.TitleBox>
         <h1>
-          <Title>Velkommen til FG Rørleggerservice AS</Title>
+          <Title>Rediger artikkel</Title>
         </h1>
       </Styles.TitleBox>
       <FormContainer onSubmit={handleSubmit(onSubmit)}>

@@ -1,4 +1,3 @@
-import { Button } from '@chakra-ui/core';
 import React from 'react';
 import { NavLink } from 'react-router-dom';
 import styled from 'styled-components';
@@ -69,7 +68,7 @@ const NavMenuItem = styled.li`
 `;
 
 const Nav = () => {
-  const { isLoggedIn, isAdmin, setUser } = useAuthContext();
+  const { isLoggedIn, setUser } = useAuthContext();
 
   const handleLogout = async () => {
     await logout();
