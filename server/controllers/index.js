@@ -4,3 +4,4 @@ export * as officeController from './office.js';
 export * as imageController from './image.js';
 export * as employeeController from './employee.js';
 export * as authController from './auth.js';
+export * as emailController from './email.js';

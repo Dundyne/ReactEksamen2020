@@ -9,7 +9,9 @@ import Fagartikler from '../pages/FagartiklerPage';
 import UserForm from '../pages/UserFormPage';
 import LoginForm from '../pages/LoginFormPage';
 import ArtikkelVisning from '../pages/ArtikkelVisningPage';
+import KontorVisning from '../pages/KontorVisningPage';
 import Aggregering from '../pages/AggregeringPage';
+import FagartikkelRedigering from '../pages/FagartikkelRedigeringPage';
 
 import { useAuthContext } from "../context/AuthProvider";
 import {
@@ -81,6 +83,15 @@ const Routes = () => (
           <Route exact path ="/artikkelVisning/:id">
             <ArtikkelVisning />
           </Route>
+
+          <Route exact path ="/kontorVisning/:id">
+            <KontorVisning />
+          </Route>
+
+          <Route exact path ="/artikkelVisning/fagartikkelRedigering/:id">
+            <FagartikkelRedigering />
+          </Route>
+
         <Route exact path = "/registrationForm">
           <UserForm/>
         </Route>
@@ -95,6 +106,8 @@ const Routes = () => (
         <Route exact path = "/kontaktSide">
           <KontaktSide/>
         </Route>
+
+        
         
         
         </Switch>

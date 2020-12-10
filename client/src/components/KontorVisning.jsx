@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { useHistory, useParams } from "react-router-dom";
-import { get, put, remove } from "../utils/articleService";
+import { get, put } from "../utils/officeService";
 import { Styles } from "../StyledComponents/index.js";
 import styled from "styled-components";
 import { Grid, Cell } from "styled-css-grid";
-import { NavLink } from "react-router-dom";
 
 const Title = styled.h1`
   text-align: center;
@@ -15,17 +14,23 @@ const Title = styled.h1`
 `;
 const FlexContainer = styled.div`
   display: grid;
-  max-width: 800px;
+  max-width: 90%;
   margin: 0 auto;
   align-items: center;
 `;
 
 const IngressParagraph = styled.p`
   padding-top: 20px;
-  text-align: center;
+  text-align: left;
   font-size: 20px;
   font-familiy: Times New Roman;
 `;
+
+const fakeBilde = styled.div`
+  width: 30px;
+  height: 30px;
+  background-color: grey;
+`
 
 const TitleText = styled.p`
   font-size: 20px;
@@ -88,104 +93,89 @@ const StyledButtonGreen = styled.button`
     background-color: #7fbf08;
   }
 `;
+const CompanyCard = styled.section`
+    display: flex;
+    flex-wrap: wrap;
+    
+    height: 150px;
+    padding: 20px;
+    margin: 0, 20px;
+    border 1px solid black;
 
-const ArtikkelVisning = () => {
-  const history = useHistory();
+`;
 
+
+const KontorVisning = () => {
   const { id } = useParams();
-  const [article, setArticle] = useState(null);
+  const [office, setOffice] = useState(null);
+  const employees = [];
+
+
+  //Hadde ikke så mye tid til å fikse i backend så hardkoder ansatte og tekst.
+
+  for (let index = 0; index < 10; index++) {
+    employees.push({
+      navn: "ansatt" + index.toString(),
+      stilling: "slave" + index,
+    });
+  }
 
   useEffect(() => {
     if (id) {
       const fetchData = async () => {
         const { data } = await get(id);
-        setArticle(data.data);
+        setOffice(data.data);
       };
       fetchData();
     }
   }, [id]);
 
-  const deleteArticle = async () => {
-    const data = await remove(id);
-    alert("Article Deleted!");
-    setTimeout(() => {
-      history.push(`/fagartikler`);
-    }, 2000);
-  };
   return (
     <>
-      {article && (
-        <article>
+      {office && (
+        <office>
           <Styles.TitleBox>
             <h1>
-              <Title>{article.title}</Title>
+              <Title>{office.name}</Title>
             </h1>
           </Styles.TitleBox>
-
           <FlexContainer>
             <Grid columns={12}>
-              <Cell width={6}>
-                <TitleText>{article.author}</TitleText>
-              </Cell>
-              <Cell width={6}>
-                <TitleText1>{article.date}</TitleText1>
-              </Cell>
-
-              <Cell width={6}>
-                <TitleText>
-                  <p>Created by admin</p>
-                </TitleText>
-                {article.admin}
+              <Cell width={12}>
+                <TitleText>Velkommen til {office.name}</TitleText>
               </Cell>
 
               <Cell width={12}>
-                <IngressParagraph>{article.ingress}</IngressParagraph>
+                <IngressParagraph>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur sed lectus tellus. Nunc id consequat eros, sed fringilla libero. Nam quis felis eget lorem facilisis pulvinar vitae ut ligula. Donec at lorem nec dolor egestas sodales id nec nunc. Aliquam est quam, aliquam sit amet mi ac, luctus maximus leo. Cras interdum diam id placerat tempus. Etiam auctor dolor auctor rhoncus finibus. Praesent vel sapien a sem rutrum convallis ac aliquam magna. Sed fringilla sodales viverra. Morbi a viverra justo. Donec at urna ut leo ultrices laoreet. Sed at tellus lacinia, mollis massa non, porta risus. Vestibulum commodo felis in aliquam bibendum. </IngressParagraph>
               </Cell>
-
               <Cell width={12}>
-                <TitleMain>{"Subtittel"}</TitleMain>
+                <TitleText>Våre ansatte</TitleText>
               </Cell>
-
+              {employees.map((employee) =>
+                <Cell width={2}>
+                    <CompanyCard>
+                    <fakeBilde>bile</fakeBilde>
+                    <p>{employee.navn}</p>
+                    <p>{employee.stilling}</p>
+                    </CompanyCard>
+                </Cell>
+              )}
               <Cell width={12}>
-                <IngressParagraph>{article.content}</IngressParagraph>
-              </Cell>
-
-              <Cell width={12}>
-                <TitleMain>{"Subtittel"}</TitleMain>
-              </Cell>
-
-              <Cell width={12}>
-                <IngressParagraph>{article.content}</IngressParagraph>
-              </Cell>
-
-              <Cell width={12}>
-                <BottomText>{article.category}</BottomText>
-              </Cell>
-
-              <Cell width={12}>
-                <p>{article.clicks} så mange klikks</p>
-              </Cell>
-
-              <Cell width={6}>
-                <BottomText>
-                  <StyledButtonRed onClick={deleteArticle}>
-                    SLETT
-                  </StyledButtonRed>
-                </BottomText>
-              </Cell>
-              <Cell width={6}>
-                <BottomText>
-                  <NavLink to={`fagartikkelRedigering/${article._id}`}>
-                    <StyledButtonGreen>REDIGER</StyledButtonGreen>
-                  </NavLink>
-                </BottomText>
+              <Styles.TitleBox>
+            <h1>
+            
+              <Title>Kontakt oss {office.number}</Title>
+            </h1>
+          </Styles.TitleBox>
               </Cell>
             </Grid>
           </FlexContainer>
-        </article>
+        </office>
       )}
+
+      
     </>
   );
 };
 
-export default ArtikkelVisning;
+export default KontorVisning;

@@ -217,6 +217,9 @@ const Kontorer = () => {
           {offices.map((office, index) => (
             <Cell width={12}>
               <CompanyCard>
+              <NavLink to={`kontorVisning/${office._id}`}>
+                  Trykk her for å se mer...
+                </NavLink>
                 <h1>Text:{office._id}</h1>
                 <p key={index}>Nummer:{index}</p>
                 <p>Text{office.email}</p>
@@ -238,6 +241,9 @@ const Kontorer = () => {
           {offices.map((office, index) => (
             <Cell width={3}>
               <CompanyCard>
+              <NavLink to={`kontorVisning/${office._id}`}>
+                  Trykk her for å se mer...
+                </NavLink>
                 <h1>Text:{office._id}</h1>
                 <p key={index}>Nummer:{index}</p>
                 <p>Text{office.email}</p>
