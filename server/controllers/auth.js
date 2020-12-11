@@ -1,12 +1,15 @@
 import catchAsyncErrors from '../middleware/catchAsync.js';
-import { userService } from '../services/index.js';
+import { userService, emailService } from '../services/index.js';
 import ErrorHandler from '../utils/errorHandler.js';
 import { sendToken } from '../utils/jwtToken.js';
 import { sendMail } from '../utils/sendEmail.js';
 
+
 export const register = catchAsyncErrors(async (req, res, next) => {
   const user = await userService.createUser(req.body);
-  try {
+  
+  /*
+   try {
     await sendMail({
       email: user.email,
       subject: 'Velkommen som bruker',
@@ -15,8 +18,29 @@ export const register = catchAsyncErrors(async (req, res, next) => {
   } catch (error) {
     console.log(error);
   }
+  */
   sendToken(user, res);
 });
+
+
+
+
+
+export const sendMails = catchAsyncErrors(async(req, res, next) => {
+  
+  //const user = await userService.getUserById(req.user.id);
+  //req.body.user = req.user.id;
+    const email = await emailService.createEmail(req.body);
+    /*
+  try{
+      await sendMail(email);
+    }
+  catch(error) {
+    console.log(error);
+  }*/
+  res.status(250).json();
+});
+
 
 export const login = catchAsyncErrors(async (req, res, next) => {
   const { email, password } = req.body;
@@ -36,6 +60,7 @@ export const login = catchAsyncErrors(async (req, res, next) => {
     return next(new ErrorHandler('Fyll ut epost og passord', 400));
   }
 
+  
   sendToken(user, res);
 });
 

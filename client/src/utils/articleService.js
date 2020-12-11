@@ -26,6 +26,14 @@ export const put = async (id, data) => {
   }
 };
 
+export const remove = async (id) => {
+  try {
+    return await http.delete(`${API_URL}/${id}`);
+  } catch (err) {
+    return err.response;
+  }
+};
+
 export const create = async (data) => {
   try {
     return await http.post(`${API_URL}`, data);
@@ -36,6 +44,7 @@ export const create = async (data) => {
 
 export default {
   create,
+  remove,
   list,
   get,
   put,
